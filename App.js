@@ -2,10 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import Logo from './assets/cards/A-hearts.svg'
+
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Hello Vinhomes</Text>
+      <Logo width={375} height={600} />
       <StatusBar style="auto" />
     </View>
   );
