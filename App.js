@@ -1,14 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import Logo from './assets/cards/A-hearts.svg'
+import Game from './src/components/Game'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Hello Vinhomes</Text>
-      <Logo width={375} height={600} />
+      <Game />
       <StatusBar style="auto" />
     </View>
   );
@@ -17,7 +16,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
