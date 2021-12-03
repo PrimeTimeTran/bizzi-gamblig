@@ -123,7 +123,6 @@ function getDeck() {
   for (let idxSuit = 0; idxSuit < suits.length; idxSuit++) {
     for (let idxValue = 0; idxValue < values.length; idxValue++) {
       const name = `${values[idxValue]}-${suits[idxSuit]}.svg`
-      console.log({ name });
       let card = {
         file: 1,
         value: values[idxValue],
