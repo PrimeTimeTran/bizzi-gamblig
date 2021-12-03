@@ -1,23 +1,16 @@
 # Notes
 
-
-
-
-
-
 # Steps
 
 1. State of app
-2. 
-
-
-
 
 # State
 
 ```js
-
 {
+  activeHand: {
+    handsActive: 2,
+  },
   hands: [
     {
       id: 1,

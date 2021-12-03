@@ -1,4 +1,5 @@
 import React from 'react'
+
 import AH from "../../assets/cards/A-hearts.svg";
 import KH from "../../assets/cards/K-hearts.svg";
 import QH from "../../assets/cards/Q-hearts.svg";
@@ -135,10 +136,23 @@ function getDeck() {
   return deck;
 }
 
+function shuffledCards() {
+  const deck = DECK;
+  for (var i = 0; i < 100; i++) {
+    var location1 = Math.floor(Math.random() * 52);
+    var location2 = Math.floor(Math.random() * 52);
+    var tmp = deck[location1];
+    deck[location1] = deck[location2];
+    deck[location2] = tmp;
+  }
+  return deck;
+}
+
 
 export {
   getDeck,
-  DECK
+  DECK,
+  shuffledCards
 }
 
 
