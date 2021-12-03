@@ -4,13 +4,17 @@
 
 1. State of app
 
-# State
+# App State
 
 ```js
 {
-  activeHand: {
-    handsActive: 2,
-  },
+  gameState: {
+    bet: 100,
+    dealerCards: [],
+    playerCards: [],
+    
+  }
+  
   hands: [
     {
       id: 1,

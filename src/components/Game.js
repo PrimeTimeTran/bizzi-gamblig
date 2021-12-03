@@ -7,30 +7,42 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { shuffledCards } from '../utils';
+import { shuffledCards, BACK, DECK } from '../utils';
+
+const shuffledDeck = shuffledCards()
 
 export default function Game() {
-  const [cards, setCards] = useState([])
+  const [state, setState] = useState({
+    cards: shuffledDeck,
+    playerCards: [],
+    dealerCards: [],
+  })
 
-  const renderDeck = () => {
-    const cards = []
-
-    for (const card of shuffledCards()) {
-      cards.push(card.component)
+  const renderCards = () => {
+    const cards = state.cards
+    const dealtCards = []
+    let idx = 0
+    const dealerCards = cards.splice(0, 2)
+    for (const card of dealerCards) {
+      dealtCards.push(card.component)
     }
-    return cards
+    const playerCards = cards.splice(0, 2)
+    for (const card of playerCards) {
+      dealtCards.push(card.component)
+    }
+    const cardsRemaining = state.cards.filter(Boolean);
+    console.log({ dealerCards, playerCards, cardsRemaining })
+    // setCards(cardsRemaining)
+    return dealtCards
   }
 
-  useEffect(() => {
-    console.log('Hello Game')
-  }, [])
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.row}>
         <Text>Dealer</Text>
         <View style={styles.rowContainer}>
-          {renderDeck()}
+          {renderCards()}
         </View>
       </View>
       <View style={styles.flexOne}>
@@ -39,9 +51,9 @@ export default function Game() {
         <Text style={styles.title}>July, 22th, 1987</Text>
       </View>
       <View style={styles.row}>
-        <Text>Dealer</Text>
+        <Text>Player</Text>
         <View style={styles.rowContainer}>
-          {renderDeck()}
+          {renderCards()}
         </View>
       </View>
     </ScrollView>
@@ -72,6 +84,7 @@ const styles = StyleSheet.create({
   row: {
     height: '40%',
     maxWidth: '100%',
+    padding: '5%',
     flexDirection: 'column',
     backgroundColor: 'blue'
   },
