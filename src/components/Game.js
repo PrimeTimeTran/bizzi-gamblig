@@ -5,7 +5,8 @@ import {
   View,
   Button,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 
 import { shuffledCards, BACK, DECK, calculateSumOfCards } from '../utils';
@@ -61,7 +62,7 @@ function HandRow({ cards, player }) {
       </View>}
       <Text style={styles.rowTitle}></Text>
       <Text style={styles.rowTitle}>{text}</Text>
-      <Text style={styles.rowTitle}></Text>
+      <Text style={styles.rowTitle}>{calculateSumOfCards(cards)}</Text>
       {player === 'Player' && <View style={styles.rowContainer}>
         {renderCards()}
       </View>}
@@ -70,17 +71,28 @@ function HandRow({ cards, player }) {
 
 }
 function Composer(props) {
-  const { hitme, step } = props
+  const { hitme, step, setState, state } = props
   if (step === 0) {
     return (
       <View style={styles.flexOne}>
         <View style={styles.composorRow}>
-          <Text>Hello</Text>
+          <View style={{ backgroundColor: 'lightgrey', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>{state.handCount}</Text></View>
+          <TouchableOpacity onPress={() => setState({ ...state, handCount: state.handCount - 1 })} style={{ backgroundColor: 'lightpink', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>-</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => setState({ ...state, handCount: state.handCount + 1 })} style={{ backgroundColor: 'lightgreen', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>+</Text></TouchableOpacity>
+
+        </View >
+        <View style={styles.composorRow}>
+          <View style={{ backgroundColor: 'lightgrey', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>{state.bet}</Text></View>
+          <TouchableOpacity onPress={() => setState({ ...state, bet: state.bet - 100 })} style={{ backgroundColor: 'lightpink', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>-</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => setState({ ...state, bet: state.bet + 100 })} style={{ backgroundColor: 'lightgreen', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>+</Text></TouchableOpacity>
+        </View>
+        <View style={styles.composorRow}>
+          <TouchableOpacity onPress={() => setState({ ...state, step: state.step + 1 })} style={{ backgroundColor: 'lightgreen', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>Deal</Text></TouchableOpacity>
         </View>
       </View>
     )
   }
-  if (step === 0) {
+  if (step === 1) {
     return (
       <View style={styles.flexOne}>
         <View style={styles.composorRow}>
@@ -147,6 +159,7 @@ function Composer(props) {
 export default function Game() {
   const [state, setState] = useState({
     step: 0,
+    bet: 100,
     handCount: 2,
     handsDealt: [],
     playerCards: [],
@@ -155,7 +168,6 @@ export default function Game() {
   })
 
   useEffect(() => {
-
     const startGame = () => {
       const cards = state.cardsRemaining
       const dealtCards = []
@@ -210,7 +222,7 @@ export default function Game() {
   return (
     <ScrollView style={styles.container}>
       <HandRow step={state.step} cards={state.dealerCards} player="Dealer" />
-      <Composer step={state.step} />
+      <Composer step={state.step} state={state} setState={setState} />
       {/* <View style={styles.value}>
         <Text style={{ textAlign: 'center' }}>
           💯🙏🤔🙌🏻🤡🥋👨🏻‍🎓🙇🏻‍♂️🧑🏻‍💻 👨🏻‍🏫 🧙🏻‍♂️ 🐒🦁🔫 ☮️ 📈 💂🏻‍♀️👨🏻‍🍳 ✍️⛵️🎢🗽
