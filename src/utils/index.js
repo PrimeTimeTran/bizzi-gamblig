@@ -1,71 +1,77 @@
-import React from 'react'
-import { Dimensions } from 'react-native';
+import React from 'react';
+import { Text, View, Dimensions } from 'react-native';
 
-
-import AH from "../../assets/cards/A-hearts.svg";
-import KH from "../../assets/cards/K-hearts.svg";
-import QH from "../../assets/cards/Q-hearts.svg";
-import JH from "../../assets/cards/J-hearts.svg";
-import H10 from "../../assets/cards/10-hearts.svg";
-import H9 from "../../assets/cards/9-hearts.svg";
-import H8 from "../../assets/cards/8-hearts.svg";
-import H7 from "../../assets/cards/7-hearts.svg";
-import H6 from "../../assets/cards/6-hearts.svg";
-import H5 from "../../assets/cards/5-hearts.svg";
-import H4 from "../../assets/cards/4-hearts.svg";
-import H3 from "../../assets/cards/3-hearts.svg";
-import H2 from "../../assets/cards/2-hearts.svg";
-
-import AD from "../../assets/cards/A-diamonds.svg";
-import KD from "../../assets/cards/K-diamonds.svg";
-import QD from "../../assets/cards/Q-diamonds.svg";
-import JD from "../../assets/cards/J-diamonds.svg";
-import D10 from "../../assets/cards/10-diamonds.svg";
-import D9 from "../../assets/cards/9-diamonds.svg";
-import D8 from "../../assets/cards/8-diamonds.svg";
-import D7 from "../../assets/cards/7-diamonds.svg";
-import D6 from "../../assets/cards/6-diamonds.svg";
-import D5 from "../../assets/cards/5-diamonds.svg";
-import D4 from "../../assets/cards/4-diamonds.svg";
-import D3 from "../../assets/cards/3-diamonds.svg";
-import D2 from "../../assets/cards/2-diamonds.svg";
-
-import AC from "../../assets/cards/A-clubs.svg";
-import KC from "../../assets/cards/K-clubs.svg";
-import QC from "../../assets/cards/Q-clubs.svg";
-import JC from "../../assets/cards/J-clubs.svg";
 import C10 from "../../assets/cards/10-clubs.svg";
-import C9 from "../../assets/cards/9-clubs.svg";
-import C8 from "../../assets/cards/8-clubs.svg";
-import C7 from "../../assets/cards/7-clubs.svg";
-import C6 from "../../assets/cards/6-clubs.svg";
-import C5 from "../../assets/cards/5-clubs.svg";
-import C4 from "../../assets/cards/4-clubs.svg";
-import C3 from "../../assets/cards/3-clubs.svg";
-import C2 from "../../assets/cards/2-clubs.svg";
-
-import AS from "../../assets/cards/A-spades.svg";
-import KS from "../../assets/cards/K-spades.svg";
-import QS from "../../assets/cards/Q-spades.svg";
-import JS from "../../assets/cards/J-spades.svg";
+import D10 from "../../assets/cards/10-diamonds.svg";
+import H10 from "../../assets/cards/10-hearts.svg";
 import S10 from "../../assets/cards/10-spades.svg";
-import S9 from "../../assets/cards/9-spades.svg";
-import S8 from "../../assets/cards/8-spades.svg";
-import S7 from "../../assets/cards/7-spades.svg";
-import S6 from "../../assets/cards/6-spades.svg";
-import S5 from "../../assets/cards/5-spades.svg";
-import S4 from "../../assets/cards/4-spades.svg";
-import S3 from "../../assets/cards/3-spades.svg";
+import C2 from "../../assets/cards/2-clubs.svg";
+import D2 from "../../assets/cards/2-diamonds.svg";
+import H2 from "../../assets/cards/2-hearts.svg";
 import S2 from "../../assets/cards/2-spades.svg";
+import C3 from "../../assets/cards/3-clubs.svg";
+import D3 from "../../assets/cards/3-diamonds.svg";
+import H3 from "../../assets/cards/3-hearts.svg";
+import S3 from "../../assets/cards/3-spades.svg";
+import C4 from "../../assets/cards/4-clubs.svg";
+import D4 from "../../assets/cards/4-diamonds.svg";
+import H4 from "../../assets/cards/4-hearts.svg";
+import S4 from "../../assets/cards/4-spades.svg";
+import C5 from "../../assets/cards/5-clubs.svg";
+import D5 from "../../assets/cards/5-diamonds.svg";
+import H5 from "../../assets/cards/5-hearts.svg";
+import S5 from "../../assets/cards/5-spades.svg";
+import C6 from "../../assets/cards/6-clubs.svg";
+import D6 from "../../assets/cards/6-diamonds.svg";
+import H6 from "../../assets/cards/6-hearts.svg";
+import S6 from "../../assets/cards/6-spades.svg";
+import C7 from "../../assets/cards/7-clubs.svg";
+import D7 from "../../assets/cards/7-diamonds.svg";
+import H7 from "../../assets/cards/7-hearts.svg";
+import S7 from "../../assets/cards/7-spades.svg";
+import C8 from "../../assets/cards/8-clubs.svg";
+import D8 from "../../assets/cards/8-diamonds.svg";
+import H8 from "../../assets/cards/8-hearts.svg";
+import S8 from "../../assets/cards/8-spades.svg";
+import C9 from "../../assets/cards/9-clubs.svg";
+import D9 from "../../assets/cards/9-diamonds.svg";
+import H9 from "../../assets/cards/9-hearts.svg";
+import S9 from "../../assets/cards/9-spades.svg";
+import AC from "../../assets/cards/A-clubs.svg";
+import AD from "../../assets/cards/A-diamonds.svg";
+import AH from "../../assets/cards/A-hearts.svg";
+import AS from "../../assets/cards/A-spades.svg";
+import JC from "../../assets/cards/J-clubs.svg";
+import JD from "../../assets/cards/J-diamonds.svg";
+import JH from "../../assets/cards/J-hearts.svg";
+import JS from "../../assets/cards/J-spades.svg";
+import KC from "../../assets/cards/K-clubs.svg";
+import KD from "../../assets/cards/K-diamonds.svg";
+import KH from "../../assets/cards/K-hearts.svg";
+import KS from "../../assets/cards/K-spades.svg";
+import QC from "../../assets/cards/Q-clubs.svg";
+import QD from "../../assets/cards/Q-diamonds.svg";
+import QH from "../../assets/cards/Q-hearts.svg";
+import QS from "../../assets/cards/Q-spades.svg";
 
-import BACK from "../../assets/cards/back.svg";
+import BackCard from "../../assets/cards/back.svg";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const cardWidth = (windowWidth * 0.90) / 2
+const cardWidth = (windowWidth * 0.95) / 2
 const cardHeight = (windowHeight * 0.50) / 2
 
+function createCardComponent(v, s) {
+  var MyComponent = Components[type + "Component"];
+  return (
+    React.createElement()
+  )
+}
+
+
+
+const BACK = <BackCard width={cardWidth} height={cardHeight} />
 
 const DECK = [
   { value: "A", suit: "hearts", component: <AH width={cardWidth} height={cardHeight} /> },
@@ -110,7 +116,8 @@ const DECK = [
   { value: "3", suit: "clubs", component: <C3 width={cardWidth} height={cardHeight} /> },
   { value: "2", suit: "clubs", component: <C2 width={cardWidth} height={cardHeight} /> },
 
-  { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} /> },
+  // { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} /> },
+  { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} style={{ borderWidth: 1, borderColor: 'black' }} /> },
   { value: "K", suit: "spades", component: <KS width={cardWidth} height={cardHeight} /> },
   { value: "Q", suit: "spades", component: <QS width={cardWidth} height={cardHeight} /> },
   { value: "J", suit: "spades", component: <JS width={cardWidth} height={cardHeight} /> },
@@ -146,6 +153,60 @@ function getDeck() {
   return deck;
 }
 
+// https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-70.php
+const countOccurrences = (arr, val) =>
+  arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
+
+function calculateSumOfCards(cards) {
+  let total = 0;
+  console.log({ cards })
+  const values = cards.map((c) => {
+    switch (c.value) {
+      case "A":
+        return "A";
+      case "9":
+        return 9;
+      case "8":
+        return 8;
+      case "7":
+        return 7;
+      case "6":
+        return 6;
+      case "5":
+        return 5;
+      case "4":
+        return 4;
+      case "3":
+        return 3;
+      case "2":
+        return 2;
+      default:
+        return 10;
+    }
+  });
+
+  for (const value of values) {
+    if (value !== "A") total += value;
+  }
+
+  let count = countOccurrences(values, "A");
+
+  while (count > 0) {
+    if (total + 11 <= 21) {
+      total += 11;
+    } else if (total + 10 <= 21) {
+      total += 10;
+    } else if (total + 1 <= 21) {
+      total += 1;
+    } else {
+      total += 1;
+    }
+    count -= 1;
+  }
+
+  return total;
+}
+
 function shuffledCards() {
   const deck = DECK;
   for (var i = 0; i < 100; i++) {
@@ -164,7 +225,7 @@ export {
   DECK,
   getDeck,
   shuffledCards,
-}
+  calculateSumOfCards,
+};
 
-
-
+// 💯🙏🤔🙌🏻🤡🥋👨🏻‍🎓🙇🏻‍♂️🧑🏻‍💻 👨🏻‍🏫 🧙🏻‍♂️ 🐒🦁🔫 ☮️ 📈 💂🏻‍♀️👨🏻‍🍳 ✍️⛵️🎢🗽
