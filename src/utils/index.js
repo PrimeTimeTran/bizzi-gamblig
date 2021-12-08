@@ -62,15 +62,6 @@ const windowHeight = Dimensions.get('window').height;
 const cardWidth = (windowWidth * 0.95) / 2
 const cardHeight = (windowHeight * 0.50) / 2
 
-function createCardComponent(v, s) {
-  var MyComponent = Components[type + "Component"];
-  return (
-    React.createElement()
-  )
-}
-
-
-
 const BACK = <BackCard width={cardWidth} height={cardHeight} />
 
 const DECK = [
@@ -117,7 +108,7 @@ const DECK = [
   { value: "2", suit: "clubs", component: <C2 width={cardWidth} height={cardHeight} /> },
 
   // { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} /> },
-  { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} style={{ borderWidth: 1, borderColor: 'black' }} /> },
+  { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} /> },
   { value: "K", suit: "spades", component: <KS width={cardWidth} height={cardHeight} /> },
   { value: "Q", suit: "spades", component: <QS width={cardWidth} height={cardHeight} /> },
   { value: "J", suit: "spades", component: <JS width={cardWidth} height={cardHeight} /> },
@@ -227,5 +218,3 @@ export {
   shuffledCards,
   calculateSumOfCards,
 };
-
-// 💯🙏🤔🙌🏻🤡🥋👨🏻‍🎓🙇🏻‍♂️🧑🏻‍💻 👨🏻‍🏫 🧙🏻‍♂️ 🐒🦁🔫 ☮️ 📈 💂🏻‍♀️👨🏻‍🍳 ✍️⛵️🎢🗽

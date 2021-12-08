@@ -11,11 +11,7 @@ import {
 import { shuffledCards, BACK, DECK, calculateSumOfCards } from '../utils';
 
 const shuffledDeck = shuffledCards()
-function Card() {
-  return (
-    <View><Text>111</Text></View>
-  )
-}
+
 function HandRow({ cards, player }) {
   const findCard = (v, s) => {
     return DECK.find(c => c.value === v && c.suit === s)
@@ -56,7 +52,8 @@ function HandRow({ cards, player }) {
     // }
     return dealtCards
   }
-  const text = player === 'Player' ? "Những con át chủ bài vừa dẫn đầu vừa đẩy quân và câu lạc bộ của mọi người" : "Hai vị vua với tấm lòng thống nhất và giàu có"
+  // const text = player === 'Player' ? "Những con át chủ bài vừa dẫn đầu vừa đẩy quân và câu lạc bộ của mọi người" : "Hai vị vua với tấm lòng thống nhất và giàu có"
+  const text = player
   return (
     <View style={styles.row}>
       {player === 'Dealer' && <View style={styles.rowContainer}>
@@ -73,7 +70,71 @@ function HandRow({ cards, player }) {
 
 }
 function Composer(props) {
-  const { hitme } = props
+  const { hitme, step } = props
+  if (step === 0) {
+    return (
+      <View style={styles.flexOne}>
+        <View style={styles.composorRow}>
+          <Text>Hello</Text>
+        </View>
+      </View>
+    )
+  }
+  if (step === 0) {
+    return (
+      <View style={styles.flexOne}>
+        <View style={styles.composorRow}>
+          <View style={styles.key}>
+            <Text>
+              Hands:
+            </Text>
+          </View>
+          <View style={styles.value}>
+            <Text style={styles.textValue}>
+              1 🃏
+            </Text>
+          </View>
+        </View>
+        <View style={styles.composorRow}>
+          <View style={styles.key}>
+            <Text>
+              Bet:
+            </Text>
+          </View>
+          <View style={styles.value}>
+            <Text style={styles.textValue}>
+              $100 💵
+            </Text>
+          </View>
+        </View>
+        <View style={styles.composorRow}>
+          <View style={styles.key}>
+            <Text>
+              Location:
+            </Text>
+          </View>
+          <View style={styles.value}>
+            <Text style={styles.textValue}>
+              Earth 🌏
+            </Text>
+          </View>
+        </View>
+        <View style={styles.composorRow}>
+          <View style={styles.key}>
+            <Text>
+              Time:
+            </Text>
+          </View>
+          <View style={styles.value}>
+            <Text style={styles.textValue}>
+              Fleeting 🕤
+            </Text>
+          </View>
+        </View>
+      </View>
+    )
+
+  }
   return (
     <View style={styles.flexOne}>
       <Text style={[styles.title, { marginBottom: 10 }]}>
@@ -98,12 +159,10 @@ export default function Game() {
     const startGame = () => {
       const cards = state.cardsRemaining
       const dealtCards = []
-
-      let playerHandIdx = 0
-      let cardsCopy = [...cards]
-      let dealtCardsNew = []
-
       // TODO: For each hand deal cards
+      // let playerHandIdx = 0
+      // let cardsCopy = [...cards]
+      // let dealtCardsNew = []
       // while (playerHandIdx < state.handCount) {
       //   let kards = cardsCopy.splice(0, 2)
       //   for (let kard of kards) {
@@ -137,6 +196,7 @@ export default function Game() {
       console.log({ cardsRemaining })
 
       setState({
+        ...state,
         playerCards,
         dealerCards,
         cardsRemaining,
@@ -149,9 +209,13 @@ export default function Game() {
 
   return (
     <ScrollView style={styles.container}>
-      <Card />
       <HandRow step={state.step} cards={state.dealerCards} player="Dealer" />
       <Composer step={state.step} />
+      {/* <View style={styles.value}>
+        <Text style={{ textAlign: 'center' }}>
+          💯🙏🤔🙌🏻🤡🥋👨🏻‍🎓🙇🏻‍♂️🧑🏻‍💻 👨🏻‍🏫 🧙🏻‍♂️ 🐒🦁🔫 ☮️ 📈 💂🏻‍♀️👨🏻‍🍳 ✍️⛵️🎢🗽
+        </Text>
+      </View> */}
       <HandRow step={state.step} cards={state.playerCards} player="Player" />
     </ScrollView>
   )
@@ -184,7 +248,7 @@ const styles = StyleSheet.create({
   rowTitle: {
     fontSize: 20,
     textAlign: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -192,5 +256,19 @@ const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
     borderColor: 'black'
+  },
+  composorRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  key: {
+    flex: 1,
+  },
+  value: {
+    flex: 1,
+    alignItems: 'flex-end'
+  },
+  textValue: {
+    color: 'blue'
   }
 });
