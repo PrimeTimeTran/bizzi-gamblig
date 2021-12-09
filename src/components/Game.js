@@ -6,19 +6,20 @@ import {
   Button,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+  TouchableOpacity
+} from 'react-native'
 
-import { shuffledCards, BACK, DECK, calculateSumOfCards } from '../utils';
+import { shuffledCards, BACK, DECK, calculateSumOfCards } from '../utils'
 
 const shuffledDeck = shuffledCards()
 
-function HandRow({ cards, player }) {
+function HandRow ({ cards, player }) {
   const findCard = (v, s) => {
     return DECK.find(c => c.value === v && c.suit === s)
   }
   const renderCards = () => {
     const dealtCards = []
+    // FIXME Real Game
     for (const [i, v] of cards.entries()) {
       if (player === 'Player') {
         if (i === 0) {
@@ -53,14 +54,16 @@ function HandRow({ cards, player }) {
     // }
     return dealtCards
   }
-  // const text = player === 'Player' ? "Những con át chủ bài vừa dẫn đầu vừa đẩy quân và câu lạc bộ của mọi người" : "Hai vị vua với tấm lòng thống nhất và giàu có"
   const text = player
+  // const text = player === 'Dealer' ? "What could defeat the might of two kings who've combined their hearts and treasures" : "Dark aces which both lead and push the spades and clubs of the people"
+  // const text = player === 'Dealer' ? "Điều gì có thể đánh bại sức mạnh của hai vị vua đã kết hợp trái tim và kho báu của họ" : "Những con át chủ bài vừa dẫn đầu vừa thúc đẩy quân xì bích và chuồng"
+
   return (
     <View style={styles.row}>
       {player === 'Dealer' && <View style={styles.rowContainer}>
         {renderCards()}
       </View>}
-      <Text style={styles.rowTitle}></Text>
+      <Text style={styles.rowTitle} />
       <Text style={styles.rowTitle}>{text}</Text>
       <Text style={styles.rowTitle}>{calculateSumOfCards(cards)}</Text>
       {player === 'Player' && <View style={styles.rowContainer}>
@@ -68,23 +71,22 @@ function HandRow({ cards, player }) {
       </View>}
     </View>
   )
-
 }
-function Composer(props) {
+
+function Composer (props) {
   const { hitme, step, setState, state } = props
   if (step === 0) {
     return (
       <View style={styles.flexOne}>
         <View style={styles.composorRow}>
-          <View style={{ backgroundColor: 'lightgrey', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>{state.handCount}</Text></View>
-          <TouchableOpacity onPress={() => setState({ ...state, handCount: state.handCount - 1 })} style={{ backgroundColor: 'lightpink', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>-</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => setState({ ...state, handCount: state.handCount + 1 })} style={{ backgroundColor: 'lightgreen', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>+</Text></TouchableOpacity>
-
-        </View >
+          <View style={[{ backgroundColor: 'lightgrey' }, styles.composerButton]}><Text>{state.handCount}</Text></View>
+          <TouchableOpacity onPress={() => setState({ ...state, handCount: state.handCount !== 1 ? state.handCount - 1 : 1 })} style={[{ backgroundColor: 'lightpink' }, styles.composerButton]}><Text>-</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => setState({ ...state, handCount: state.handCount + 1 })} style={[{ backgroundColor: 'lightgreen' }, styles.composerButton]}><Text>+</Text></TouchableOpacity>
+        </View>
         <View style={styles.composorRow}>
-          <View style={{ backgroundColor: 'lightgrey', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>{state.bet}</Text></View>
-          <TouchableOpacity onPress={() => setState({ ...state, bet: state.bet - 100 })} style={{ backgroundColor: 'lightpink', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>-</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => setState({ ...state, bet: state.bet + 100 })} style={{ backgroundColor: 'lightgreen', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>+</Text></TouchableOpacity>
+          <View style={[{ backgroundColor: 'lightgrey' }, styles.composerButton]}><Text>{state.bet}</Text></View>
+          <TouchableOpacity onPress={() => setState({ ...state, bet: state.bet !== 100 ? state.bet - 100 : 100 })} style={[{ backgroundColor: 'lightpink' }, styles.composerButton]}><Text>-</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => setState({ ...state, bet: state.bet + 100 })} style={[{ backgroundColor: 'lightgreen' }, styles.composerButton]}><Text>+</Text></TouchableOpacity>
         </View>
         <View style={styles.composorRow}>
           <TouchableOpacity onPress={() => setState({ ...state, step: state.step + 1 })} style={{ backgroundColor: 'lightgreen', flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center' }}><Text>Deal</Text></TouchableOpacity>
@@ -145,26 +147,25 @@ function Composer(props) {
         </View>
       </View>
     )
-
   }
   return (
     <View style={styles.flexOne}>
       <Text style={[styles.title, { marginBottom: 10 }]}>
-        <Button title="Hit Me" onPress={hitme} style={styles.button} />
+        <Button title='Hit Me' onPress={hitme} style={styles.button} />
       </Text>
     </View>
   )
 }
 
-export default function Game() {
+export default function Game () {
   const [state, setState] = useState({
     step: 0,
     bet: 100,
-    handCount: 2,
+    handCount: 1,
     handsDealt: [],
     playerCards: [],
     dealerCards: [],
-    cardsRemaining: shuffledDeck,
+    cardsRemaining: shuffledDeck
   })
 
   useEffect(() => {
@@ -189,7 +190,7 @@ export default function Game() {
 
       // console.log({ cardsCopy, dealtCardsNew });
 
-      let dealerCards = cards.splice(0, 2)
+      const dealerCards = cards.splice(0, 2)
 
       for (const card of dealerCards) {
         dealtCards.push(card)
@@ -203,7 +204,7 @@ export default function Game() {
         dealtCards.push(card.component)
       }
 
-      const cardsRemaining = cards.filter(Boolean);
+      const cardsRemaining = cards.filter(Boolean)
 
       console.log({ cardsRemaining })
 
@@ -211,7 +212,7 @@ export default function Game() {
         ...state,
         playerCards,
         dealerCards,
-        cardsRemaining,
+        cardsRemaining
       })
     }
     startGame()
@@ -221,31 +222,30 @@ export default function Game() {
 
   return (
     <ScrollView style={styles.container}>
-      <HandRow step={state.step} cards={state.dealerCards} player="Dealer" />
+      <HandRow step={state.step} cards={state.dealerCards} player='Dealer' />
       <Composer step={state.step} state={state} setState={setState} />
       {/* <View style={styles.value}>
         <Text style={{ textAlign: 'center' }}>
           💯🙏🤔🙌🏻🤡🥋👨🏻‍🎓🙇🏻‍♂️🧑🏻‍💻 👨🏻‍🏫 🧙🏻‍♂️ 🐒🦁🔫 ☮️ 📈 💂🏻‍♀️👨🏻‍🍳 ✍️⛵️🎢🗽
         </Text>
       </View> */}
-      <HandRow step={state.step} cards={state.playerCards} player="Player" />
+      <HandRow step={state.step} cards={state.playerCards} player='Player' />
     </ScrollView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: '20%',
     maxHeight: '100%',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   flexOne: {
     flex: 1,
     margin: '5%',
     padding: '2%',
-    borderWidth: 1,
+    borderWidth: 1
   },
   title: {
     fontSize: 30,
@@ -256,14 +256,16 @@ const styles = StyleSheet.create({
     height: '40%',
     maxWidth: '100%',
     flexDirection: 'column',
+    borderColor: 'black',
+    borderWidth: 1
   },
   rowTitle: {
     fontSize: 20,
     textAlign: 'center',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   rowContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   button: {
     borderWidth: 1,
@@ -271,10 +273,10 @@ const styles = StyleSheet.create({
   },
   composorRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   },
   key: {
-    flex: 1,
+    flex: 1
   },
   value: {
     flex: 1,
@@ -282,5 +284,8 @@ const styles = StyleSheet.create({
   },
   textValue: {
     color: 'blue'
+  },
+  composerButton: {
+    flex: 1, margin: '1%', padding: '3%', justifyContent: 'center', alignItems: 'center'
   }
-});
+})
