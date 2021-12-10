@@ -16,10 +16,7 @@
 ```js
 {
   appState: {
-    bet: 100,
-    handCount: 1,
-    userName: 'PrimeTimeTran',
-    activeHand: {
+    step: 0,
       // 0. Pregame:
         // - Choose bet amount
         // - Choose num of hands
@@ -27,7 +24,10 @@
         // - Dealer & player have cards. 
         // - Player begins to act on hands.
       // 2. Over: Result screen and change bet & handcount.
-      status: 0,
+    bet: 100,
+    handCount: 1,
+    userName: 'PrimeTimeTran',
+    activeHand: {
       dealtCards: [],
       dealerCards: [],
       playerCards: [],
@@ -40,18 +40,28 @@
         playedHands: [
           {
             id: 1,
-            outcome: 'win',
-            bet: 1_000_000,
-            playerCards: [
+            bet: 100,
+            mode: 'normal',
+            outcome: ['win' 'lose', 'bust', 'push'],
+            cards: [
               {
                 value: 'A',
-                suit: 'hearts'
-              }
+                suit: 'spades'
+              },
+              {
+                value: 'A',
+                suit: 'clubs'
+              },
             ],
             dealerCards: [
               {
-                
-              }
+                value: 'K',
+                suit: 'hearts'
+              },
+              {
+                value: 'A',
+                suit: 'diamonds'
+              },
             ],
           }
         ]

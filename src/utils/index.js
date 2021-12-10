@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Dimensions } from 'react-native'
+import { View, Dimensions } from 'react-native'
 
 import C10 from '../../assets/cards/10-clubs.svg'
 import D10 from '../../assets/cards/10-diamonds.svg'
@@ -54,18 +54,17 @@ import QD from '../../assets/cards/Q-diamonds.svg'
 import QH from '../../assets/cards/Q-hearts.svg'
 import QS from '../../assets/cards/Q-spades.svg'
 
-import BackCard from '../../assets/cards/back.svg'
-
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
-const cardWidth = (windowWidth * 0.65) / 2
-const cardHeight = (windowHeight * 0.50) / 2
+const cardWidth = (windowWidth * 0.45) / 2
+const cardHeight = (windowHeight * 0.25) / 2
 
-const BACK = <BackCard width={cardWidth} height={cardHeight} />
+const BACK = <View style={{ width: cardWidth, height: cardHeight, borderWidth: 1 }}></View>
+const PLACEHOLDER = <View style={{ width: cardWidth, height: cardHeight }}></View>
 
 const DECK = [
-  { value: 'A', suit: 'hearts', component: <AH width={cardWidth} height={cardHeight} /> },
+  { value: 'A', suit: 'hearts', component: <View style={{ width: cardWidth, height: cardHeight }}><AH width={cardWidth} height={cardHeight} /></View> },
   { value: 'K', suit: 'hearts', component: <KH width={cardWidth} height={cardHeight} /> },
   { value: 'Q', suit: 'hearts', component: <QH width={cardWidth} height={cardHeight} /> },
   { value: 'J', suit: 'hearts', component: <JH width={cardWidth} height={cardHeight} /> },
@@ -151,6 +150,7 @@ const countOccurrences = (arr, val) =>
 function calculateSumOfCards (cards) {
   let total = 0
   console.log({ cards })
+  if (!cards) return
   const values = cards.map((c) => {
     switch (c.value) {
       case 'A':
@@ -215,5 +215,6 @@ export {
   DECK,
   getDeck,
   shuffledCards,
-  calculateSumOfCards
+  calculateSumOfCards,
+  PLACEHOLDER
 }
