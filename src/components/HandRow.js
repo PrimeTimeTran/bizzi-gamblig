@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native'
 
-import { shuffledCards, BACK, calculateSumOfCards } from '../utils'
+import { BACK, calculateSumOfCards } from '../utils'
 
 function HandRow({ idx, cards, player, handCount, step, focused }) {
   const renderCard = (c) => {
@@ -21,7 +21,6 @@ function HandRow({ idx, cards, player, handCount, step, focused }) {
   const renderCards = () => {
     if (step === 0) return [BACK, BACK]
     const dealtCards = []
-    // FIXME Real Game
     for (const [i, v] of cards.entries()) {
       if (player === 'Player') {
         dealtCards.push(renderCard(v.component))
@@ -52,7 +51,7 @@ function HandRow({ idx, cards, player, handCount, step, focused }) {
       </ScrollView>}
       <Text style={rowStyles} />
       <Text style={rowStyles}>{text}</Text>
-      <Text style={rowStyles}>{!isDealer && calculateSumOfCards(cards)}</Text>
+      <Text style={rowStyles}>{calculateSumOfCards(cards)}</Text>
       {player === 'Player' && <ScrollView horizontal style={[styles.rowContainer, { borderWidth: 1 }, step === 1 && focused && { borderColor: 'green' }]}>
         {renderCards()}
       </ScrollView>}

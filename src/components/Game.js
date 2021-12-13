@@ -18,11 +18,15 @@ export default function Game() {
   const [state, setState] = useState({
     step: 0,
     bet: 100,
-    handCount: 2,
+    handCount: 1,
     handsDealt: [],
     handFocusedIdx: 0,
     cardsRemaining: shuffledDeck,
     mode: ['normal', 'challenge', 'help'],
+    player: {
+      username: 'PrimeTimeTran',
+      balance: 100000,
+    }
   })
 
   const startGame = () => {
@@ -30,8 +34,10 @@ export default function Game() {
       handCount,
       cardsRemaining: cards
     } = state
-    let handsIdx = 0
+
     let hands = []
+    let handsIdx = 0
+
     while (handsIdx <= handCount) {
       let initialHand = cards.splice(0, 2)
       hands.push(initialHand)
@@ -56,7 +62,8 @@ export default function Game() {
     } = state
     const newHand = handsDealt[handFocusedIdx]
 
-    const sum = calculateSumOfCards(newHand)
+    if (newHand.length === 5) return
+
     newHand.push(cards.pop())
     const cardsRemaining = cards.filter(Boolean)
     handsDealt[handFocusedIdx] = newHand
@@ -93,11 +100,34 @@ export default function Game() {
 
     return texts
   }
+
+  // Indicate to user which hand # their actions apply to
   useEffect(() => {
     renderHands()
   }, [state.handFocusedIdx])
 
-  // console.log({ state })
+  // Hit for dealer til at least 16
+  useEffect(() => {
+    if (state.step === 2) {
+      const {
+        handsDealt,
+        handFocusedIdx,
+        cardsRemaining: cards
+      } = state
+      const dealerHand = handsDealt[handFocusedIdx + 1]
+      dealerHand.push(cards.pop())
+      while (calculateSumOfCards(dealerHand) <= 16) {
+        dealerHand.push(cards.pop())
+      }
+      const cardsRemaining = cards.filter(Boolean)
+      handsDealt[handFocusedIdx + 1] = dealerHand
+      setState({
+        ...state,
+        handsDealt,
+        cardsRemaining
+      })
+    }
+  }, [state.step])
 
   return (
     <View style={styles.container}>
@@ -106,7 +136,7 @@ export default function Game() {
       </View>
       <View style={{ borderWidth: 1, padding: '3%' }}>
         <Text>🃏 Deck</Text>
-        <Text>💲 {state.bet}</Text>
+        <Text>💲 {state.bet * state.handCount}</Text>
         <Text> ♦️♣️❤♠️ {state.handCount}</Text>
       </View>
       <ScrollView style={styles.flexOne}>
@@ -128,13 +158,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
-
-
-
-/*
-  <View style={styles.value}>
-    <Text style={{ textAlign: 'center' }}>
-      💯🙏🤔🙌🏻🤡🥋👨🏻‍🎓🙇🏻‍♂️🧑🏻‍💻 👨🏻‍🏫 🧙🏻‍♂️ 🐒🦁🔫 ☮️ 📈 💂🏻‍♀️👨🏻‍🍳 ✍️⛵️🎢🗽
-    </Text>
-  </View>
-*/

@@ -7,24 +7,26 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-function Composer(props) {
-  const { stay, step, setState, hit, state } = props
-  const { handCount, bet } = state
+function Composer({ startGame, stay, setState, hit, state }) {
+  const { handCount, bet, step } = state
+  const update = (k, v) => {
+    setState({ ...state, [k]: v })
+  }
   if (step === 0) {
     return (
       <View style={styles.container}>
         <View style={styles.composerRow}>
-          <View style={[{ backgroundColor: 'lightgrey' }, styles.composerButton]}><Text>{handCount}</Text></View>
-          <TouchableOpacity onPress={() => setState({ ...state, handCount: handCount !== 1 ? handCount - 1 : 1 })} style={[styles.minusButton, styles.composerButton]}><Text>-</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => setState({ ...state, handCount: handCount < 5 ? handCount + 1 : 5 })} style={[{ backgroundColor: 'lightgreen' }, styles.composerButton]}><Text>+</Text></TouchableOpacity>
+          <View style={styles.composerButton}><Text>{handCount}</Text></View>
+          <TouchableOpacity onPress={() => update('handCount', handCount !== 1 ? handCount - 1 : 1)} style={[styles.composerButton, styles.minusButton]}><Text>-</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => update('handCount', handCount < 5 ? handCount + 1 : 5)} style={[styles.composerButton, styles.addButton]}><Text>+</Text></TouchableOpacity>
         </View>
         <View style={styles.composerRow}>
-          <View style={[{ backgroundColor: 'lightgrey' }, styles.composerButton]}><Text>${bet}</Text></View>
-          <TouchableOpacity onPress={() => setState({ ...state, bet: bet !== 100 ? bet - 100 : 100 })} style={[styles.minusButton, styles.composerButton]}><Text>-</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => setState({ ...state, bet: bet + 100 })} style={[styles.addButton, styles.composerButton]}><Text>+</Text></TouchableOpacity>
+          <View style={styles.composerButton}><Text>${bet}</Text></View>
+          <TouchableOpacity onPress={() => update('bet', bet !== 100 ? bet - 100 : 100)} style={[styles.composerButton, styles.minusButton]}><Text>-</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => update('bet', bet + 100)} style={[styles.composerButton, styles.addButton]}><Text>+</Text></TouchableOpacity>
         </View>
         <View style={styles.composerRow}>
-          <TouchableOpacity onPress={props.startGame} style={styles.startButton}><Text>Deal</Text></TouchableOpacity>
+          <TouchableOpacity onPress={startGame} style={styles.startButton}><Text>Deal</Text></TouchableOpacity>
         </View>
       </View>
     )
@@ -42,6 +44,7 @@ function Composer(props) {
     )
   }
   if (step === 2) {
+    console.log({ state });
     return (
       <View style={styles.container}>
         <Text>Hi</Text>
@@ -73,6 +76,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
+  composerButton: {
+    flex: 1,
+    margin: '1%',
+    padding: '3%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightgrey',
+  },
   minusButton: {
     backgroundColor: 'lightpink'
   },
@@ -82,13 +93,6 @@ const styles = StyleSheet.create({
   value: {
     flex: 1,
     alignItems: 'flex-end'
-  },
-  composerButton: {
-    flex: 1,
-    margin: '1%',
-    padding: '3%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   button: {
     width: '50%',
