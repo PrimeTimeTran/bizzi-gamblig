@@ -7,11 +7,16 @@ import {
   TouchableOpacity
 } from 'react-native'
 
+import { calculateSumOfCards } from '../utils'
+
+
 function Composer({ startGame, stay, setState, hit, state }) {
   const { handCount, bet, step } = state
+
   const update = (k, v) => {
     setState({ ...state, [k]: v })
   }
+
   if (step === 0) {
     return (
       <View style={styles.container}>
@@ -31,6 +36,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
       </View>
     )
   }
+
   if (step === 1) {
     return (
       <View style={[styles.container, { alignItems: 'flex-end', justifyContent: 'center' }]}>
@@ -43,12 +49,37 @@ function Composer({ startGame, stay, setState, hit, state }) {
       </View>
     )
   }
+
+  const renderOutcomeText = (idx) => {
+    const { handsDealt } = state
+    const dealerSum = calculateSumOfCards(handsDealt[handsDealt.length - 1])
+    const handSum = calculateSumOfCards(handsDealt[idx])
+    if (dealerSum > 21 && handSum > 21) return 'Push'
+    if (handSum > 21 && dealerSum <= 21) return 'Lose'
+    return (
+      dealerSum > handSum ? 'Lose' : dealerSum < handSum ? 'Win' : 'Push'
+    )
+  }
+
+  const renderOutcome = () => {
+    const { handsDealt } = state
+    let handIdx = 0
+    const results = []
+    while (handsDealt.length - 1 > handIdx) {
+      results.push(
+        <Text>{renderOutcomeText(handIdx)}</Text>
+      )
+      handIdx++
+    }
+    return results
+  }
+
   if (step === 2) {
-    console.log({ state });
     return (
       <View style={styles.container}>
-        <Text>Hi</Text>
-        <Text>Hoo</Text>
+        {
+          renderOutcome()
+        }
       </View>
     )
   }
@@ -57,6 +88,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: '1%',
     borderTopWidth: 1
   },
   startButton: {
@@ -99,7 +131,7 @@ const styles = StyleSheet.create({
     height: '20%',
     borderWidth: 1,
     alignItems: 'center',
-    justifyContent: 'center' 
+    justifyContent: 'center'
   }
 })
 
