@@ -57,7 +57,7 @@ import QS from '../../assets/cards/Q-spades.svg'
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
-const cardWidth = (windowWidth * 0.45) / 2
+const cardWidth = (windowWidth * 0.35) / 2
 const cardHeight = (windowHeight * 0.25) / 2
 
 const BACK = <View style={{ width: cardWidth, height: cardHeight, borderWidth: 1 }}></View>
