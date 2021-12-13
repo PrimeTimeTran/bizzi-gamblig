@@ -149,7 +149,6 @@ const countOccurrences = (arr, val) =>
 
 function calculateSumOfCards (cards) {
   let total = 0
-  console.log({ cards })
   if (!cards) return
   const values = cards.map((c) => {
     switch (c.value) {
