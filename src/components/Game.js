@@ -101,7 +101,7 @@ export default function Game() {
     return texts
   }
 
-  // Indicate to user which hand # their actions apply to
+  // Indicate to user which hand # their acions apply to
   useEffect(() => {
     renderHands()
   }, [state.handFocusedIdx])
