@@ -126,7 +126,6 @@ export default function Game() {
         } = state
         const dealerHand = handsDealt[handFocusedIdx + 1]
         console.log({ handsDealt, dealerHand });
-        dealerHand.push(cards.pop())
         while (calculateSumOfCards(dealerHand) <= 16) {
           dealerHand.push(cards.pop())
         }
@@ -140,7 +139,6 @@ export default function Game() {
       }
     }
     hitForDealerIfCorrectStep()
-    console.log('hitForDealerIfCorrectStep')
   }, [state.step])
 
 
