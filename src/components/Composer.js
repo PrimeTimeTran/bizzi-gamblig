@@ -23,7 +23,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
         <View style={styles.composerRow}>
           <View style={styles.composerButton}><Text>{handCount - 1}</Text></View>
           <TouchableOpacity onPress={() => update('handCount', handCount >= 3 ? handCount - 1 : 2)} style={[styles.composerButton, styles.minusButton]}><Text>-</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => update('handCount', handCount < 5 ? handCount + 1 : 5)} style={[styles.composerButton, styles.addButton]}><Text>+</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => update('handCount', handCount < 6 ? handCount + 1 : 6)} style={[styles.composerButton, styles.addButton]}><Text>+</Text></TouchableOpacity>
         </View>
         <View style={styles.composerRow}>
           <View style={styles.composerButton}><Text>${bet}</Text></View>
@@ -74,6 +74,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
     return results
   }
 
+  console.log({ step });
   if (step === 2) {
     return (
       <View style={styles.container}>

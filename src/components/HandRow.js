@@ -9,7 +9,7 @@ import {
 
 import { BACK, calculateSumOfCards } from '../utils'
 
-function HandRow({ idx, cards, player, handNum, step, focused }) {
+function HandRow({ idx, cards, player, handNum, step, focused, show }) {
   const renderCard = (c) => {
     return (
       <View>
@@ -19,7 +19,7 @@ function HandRow({ idx, cards, player, handNum, step, focused }) {
   }
 
   const renderCards = () => {
-    if (step === 0) return [BACK, BACK]
+    if (show || step === 0) return [BACK, BACK]
     const dealtCards = []
     for (const [i, v] of cards.entries()) {
       if (player === 'Player') {

@@ -32,34 +32,32 @@ export default function Game() {
   const startGame = () => {
     const {
       handCount,
+      handsDealt,
       cardsRemaining: cards
     } = state
 
-    let hands = []
-
     let handIdx = 0
+
     while (handIdx < handCount) {
-      hands.push([])
-      hands[handIdx].push(cards.pop())
+      handsDealt[handIdx] = []
+      handsDealt[handIdx].push(cards.pop())
       handIdx++
     }
 
     handIdx = 0
     while (handIdx < handCount) {
-      hands[handIdx].push(cards.pop())
+      handsDealt[handIdx].push(cards.pop())
       handIdx++
     }
 
     const cardsRemaining = cards.filter(Boolean)
 
-    console.log({ handCount, cardsRemaining, handsDealt: hands })
-
     setState({
       ...state,
       step: 1,
-      handsDealt: hands,
+      handsDealt,
       cardsRemaining
-    })
+    }) 
   }
 
   const hit = () => {
@@ -83,17 +81,20 @@ export default function Game() {
   }
 
   const stay = () => {
-    const { handCount, handFocusedIdx } = state
-
-    if (handFocusedIdx === handCount - 2) {
+    const { handCount, handFocusedIdx, handsDealt } = state
+    const focusNextHand = handFocusedIdx !== handCount
+    const nextIdx = handFocusedIdx + 1
+    const dealerTurn = nextIdx === handsDealt.length - 1
+    if (focusNextHand) {
+      setState({
+        ...state,
+        handFocusedIdx: nextIdx
+      })
+    }
+    if (dealerTurn) {
       setState({
         ...state,
         step: 2
-      })
-    } else if (handFocusedIdx < handCount) {
-      setState({
-        ...state,
-        handFocusedIdx: handFocusedIdx + 1
       })
     }
   }
@@ -110,47 +111,30 @@ export default function Game() {
     return texts
   }
 
-  // Indicate to user which hand # their acions apply to
+  // Indicate to user which hand # their actions apply to
   useEffect(() => {
     renderHands()
   }, [state.handFocusedIdx])
 
-  // Hit for dealer til at least 16
-  useEffect(() => {
-    if (state.step === 2) {
-      const {
-        handsDealt,
-        handFocusedIdx,
-        cardsRemaining: cards
-      } = state
-      const dealerHand = handsDealt[handFocusedIdx + 1]
-      console.log({ handsDealt, dealerHand });
-      dealerHand.push(cards.pop())
-      while (calculateSumOfCards(dealerHand) <= 16) {
-        dealerHand.push(cards.pop())
-      }
-      const cardsRemaining = cards.filter(Boolean)
-      handsDealt[handFocusedIdx + 1] = dealerHand
-      setState({
-        ...state,
-        handsDealt,
-        cardsRemaining
-      })
-    }
-  }, [state.step])
-
-
   const {
     bet,
     step,
+    handCount,
     handsDealt,
-    handCount
+    handFocusedIdx,
   } = state
+
+  // console.log({
+  //   state,
+  //   player: handsDealt[0],
+  //   dealer: handsDealt[1],
+
+  // })
 
   return (
     <View style={styles.container}>
       <View style={{ flex: 0.7 }}>
-        <HandRow step={step} cards={handsDealt[handsDealt.length - 1]} player='Dealer' />
+        <HandRow step={step} cards={handsDealt[handsDealt.length - 1]} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
       </View>
       <View style={{ borderWidth: 1, padding: '3%' }}>
         <Text>🃏 Deck</Text>
