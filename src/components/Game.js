@@ -36,21 +36,18 @@ export default function Game() {
     } = state
 
     let hands = []
-    let handsIdx = 0
 
-    while (handsIdx <= handCount - 1) {
-      let initialHand = cards.splice(0, 2)
-      hands.push(initialHand)
-      handsIdx++
+    let handIdx = 0
+    while (handIdx < handCount) {
+      hands.push([])
+
+      hands[handIdx].push(cards.pop())
+      handIdx++
     }
-
-
-
-
 
     const cardsRemaining = cards.filter(Boolean)
 
-    console.log({ cardsRemaining, handsDealt: hands })
+    console.log({ handCount, cardsRemaining, handsDealt: hands })
 
     setState({
       ...state,
