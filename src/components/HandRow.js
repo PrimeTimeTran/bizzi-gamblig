@@ -9,7 +9,7 @@ import {
 
 import { BACK, calculateSumOfCards } from '../utils'
 
-function HandRow({ idx, cards, player, handCount, step, focused }) {
+function HandRow({ idx, cards, player, handNum, step, focused }) {
   const renderCard = (c) => {
     return (
       <View>
@@ -36,7 +36,7 @@ function HandRow({ idx, cards, player, handCount, step, focused }) {
 
     return dealtCards
   }
-  const text = player === 'Player' ? 'Hand: ' + handCount : 'Dealer'
+  const text = player === 'Player' ? 'Hand: ' + handNum : 'Dealer'
   // const text = player === 'Dealer' ? "What could defeat the might of two kings who've combined their hearts and treasures" : "Dark aces which both lead and push the spades and clubs of the people"
   // const text = player === 'Dealer' ? "Điều gì có thể đánh bại sức mạnh của hai vị vua đã kết hợp trái tim và kho báu của họ" : "Những con át chủ bài vừa dẫn đầu vừa thúc đẩy quân xì bích và chuồng"
 
@@ -46,15 +46,17 @@ function HandRow({ idx, cards, player, handCount, step, focused }) {
 
   return (
     <View key={idx} style={[styles.row]}>
-      {player === 'Dealer' && <ScrollView horizontal style={[styles.rowContainer]}>
-        {renderCards()}
-      </ScrollView>}
+      {player === 'Dealer' &&
+        <ScrollView horizontal style={[styles.rowContainer]}>
+          {renderCards()}
+        </ScrollView>}
       <Text style={rowStyles} />
       <Text style={rowStyles}>{text}</Text>
       <Text style={rowStyles}>{calculateSumOfCards(cards)}</Text>
-      {player === 'Player' && <ScrollView horizontal style={[styles.rowContainer, { borderWidth: 1 }, step === 1 && focused && { borderColor: 'green' }]}>
-        {renderCards()}
-      </ScrollView>}
+      {player === 'Player' &&
+        <ScrollView horizontal style={[styles.rowContainer, { borderWidth: 1 }, step === 1 && focused && { borderColor: 'green' }]}>
+          {renderCards()}
+        </ScrollView>}
     </View>
   )
 }

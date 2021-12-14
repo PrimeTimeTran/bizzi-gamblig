@@ -21,8 +21,8 @@ function Composer({ startGame, stay, setState, hit, state }) {
     return (
       <View style={styles.container}>
         <View style={styles.composerRow}>
-          <View style={styles.composerButton}><Text>{handCount}</Text></View>
-          <TouchableOpacity onPress={() => update('handCount', handCount !== 1 ? handCount - 1 : 1)} style={[styles.composerButton, styles.minusButton]}><Text>-</Text></TouchableOpacity>
+          <View style={styles.composerButton}><Text>{handCount - 1}</Text></View>
+          <TouchableOpacity onPress={() => update('handCount', handCount >= 3 ? handCount - 1 : 2)} style={[styles.composerButton, styles.minusButton]}><Text>-</Text></TouchableOpacity>
           <TouchableOpacity onPress={() => update('handCount', handCount < 5 ? handCount + 1 : 5)} style={[styles.composerButton, styles.addButton]}><Text>+</Text></TouchableOpacity>
         </View>
         <View style={styles.composerRow}>
@@ -54,18 +54,18 @@ function Composer({ startGame, stay, setState, hit, state }) {
     const { handsDealt } = state
     const dealerSum = calculateSumOfCards(handsDealt[handsDealt.length - 1])
     const handSum = calculateSumOfCards(handsDealt[idx])
+    if (dealerSum === handSum) return 'Push'
     if (dealerSum > 21 && handSum > 21) return 'Push'
     if (handSum > 21 && dealerSum <= 21) return 'Lose'
-    return (
-      dealerSum > handSum ? 'Lose' : dealerSum < handSum ? 'Win' : 'Push'
-    )
+    if (dealerSum > 21 && handSum <= 21) return 'Win'
+    return dealerSum > handSum ? 'Lose' : 'Win'
   }
 
   const renderOutcome = () => {
     const { handsDealt } = state
     let handIdx = 0
     const results = []
-    while (handsDealt.length - 1 > handIdx) {
+    while (handIdx < handsDealt.length - 1) {
       results.push(
         <Text>{renderOutcomeText(handIdx)}</Text>
       )
@@ -77,9 +77,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
   if (step === 2) {
     return (
       <View style={styles.container}>
-        {
-          renderOutcome()
-        }
+        {renderOutcome()}
       </View>
     )
   }
