@@ -117,26 +117,30 @@ export default function Game() {
   }, [state.handFocusedIdx])
 
   useEffect(() => {
-    if (state.step === 2) {
-      const {
-        handsDealt,
-        handFocusedIdx,
-        cardsRemaining: cards
-      } = state
-      const dealerHand = handsDealt[handFocusedIdx + 1]
-      console.log({ handsDealt, dealerHand });
-      dealerHand.push(cards.pop())
-      while (calculateSumOfCards(dealerHand) <= 16) {
+    function hitForDealerIfCorrectStep() {
+      if (state.step === 2) {
+        const {
+          handsDealt,
+          handFocusedIdx,
+          cardsRemaining: cards
+        } = state
+        const dealerHand = handsDealt[handFocusedIdx + 1]
+        console.log({ handsDealt, dealerHand });
         dealerHand.push(cards.pop())
+        while (calculateSumOfCards(dealerHand) <= 16) {
+          dealerHand.push(cards.pop())
+        }
+        const cardsRemaining = cards.filter(Boolean)
+        handsDealt[handFocusedIdx + 1] = dealerHand
+        setState({
+          ...state,
+          handsDealt,
+          cardsRemaining
+        })
       }
-      const cardsRemaining = cards.filter(Boolean)
-      handsDealt[handFocusedIdx + 1] = dealerHand
-      setState({
-        ...state,
-        handsDealt,
-        cardsRemaining
-      })
     }
+    hitForDealerIfCorrectStep()
+    console.log('hitForDealerIfCorrectStep')
   }, [state.step])
 
 
