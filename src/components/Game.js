@@ -40,7 +40,12 @@ export default function Game() {
     let handIdx = 0
     while (handIdx < handCount) {
       hands.push([])
+      hands[handIdx].push(cards.pop())
+      handIdx++
+    }
 
+    handIdx = 0
+    while (handIdx < handCount) {
       hands[handIdx].push(cards.pop())
       handIdx++
     }
