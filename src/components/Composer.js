@@ -9,7 +9,6 @@ import {
 
 import { calculateSumOfCards } from '../utils'
 
-
 function Composer({ startGame, stay, setState, hit, state }) {
   const { handCount, bet, step } = state
 
@@ -74,7 +73,6 @@ function Composer({ startGame, stay, setState, hit, state }) {
     return results
   }
 
-  console.log({ step });
   if (step === 2) {
     return (
       <View style={styles.container}>

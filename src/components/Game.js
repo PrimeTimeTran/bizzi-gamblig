@@ -14,6 +14,17 @@ import { shuffledCards, calculateSumOfCards } from '../utils'
 
 const shuffledDeck = shuffledCards()
 
+function InfoPanel(props) {
+  const { bet, handCount } = props.state
+  return (
+    <View style={{ borderBottomWidth: 1, padding: '2%', backgroundColor: 'lightgreen' }}>
+      <Text>🃏 Deck</Text>
+      <Text>💲 {bet * (handCount - 1)}</Text>
+      <Text> ♦️♣️❤♠️ {handCount - 1}</Text>
+    </View>
+  )
+}
+
 export default function Game() {
   const [state, setState] = useState({
     step: 0,
@@ -22,7 +33,7 @@ export default function Game() {
     handsDealt: [],
     handFocusedIdx: 0,
     cardsRemaining: shuffledDeck,
-    mode: ['normal', 'challenge', 'help'],
+    mode: ['normal', 'premium'],
     player: {
       balance: 100000,
       username: 'PrimeTimeTran',
@@ -39,7 +50,7 @@ export default function Game() {
     let handIdx = 0
 
     while (handIdx < handCount) {
-      handsDealt[handIdx] = []
+      handsDealt[handIdx] ||= []
       handsDealt[handIdx].push(cards.pop())
       handIdx++
     }
@@ -84,13 +95,16 @@ export default function Game() {
     const { handCount, handFocusedIdx, handsDealt } = state
     const focusNextHand = handFocusedIdx !== handCount
     const nextIdx = handFocusedIdx + 1
-    const dealerTurn = nextIdx === handsDealt.length - 1
+
     if (focusNextHand) {
       setState({
         ...state,
         handFocusedIdx: nextIdx
       })
     }
+
+    const dealerTurn = nextIdx === handsDealt.length - 1
+
     if (dealerTurn) {
       setState({
         ...state,
@@ -124,13 +138,13 @@ export default function Game() {
           handFocusedIdx,
           cardsRemaining: cards
         } = state
-        const dealerHand = handsDealt[handFocusedIdx + 1]
-        console.log({ handsDealt, dealerHand });
-        while (calculateSumOfCards(dealerHand) <= 16) {
+        const dealerIdx = handFocusedIdx + 1
+        const dealerHand = handsDealt[dealerIdx]
+        while (dealerHand.length < 5 && calculateSumOfCards(dealerHand) <= 16) {
           dealerHand.push(cards.pop())
         }
         const cardsRemaining = cards.filter(Boolean)
-        handsDealt[handFocusedIdx + 1] = dealerHand
+        handsDealt[dealerIdx] = dealerHand
         setState({
           ...state,
           handsDealt,
@@ -141,31 +155,17 @@ export default function Game() {
     hitForDealerIfCorrectStep()
   }, [state.step])
 
-
   const {
-    bet,
     step,
-    handCount,
     handsDealt,
     handFocusedIdx,
   } = state
 
-  // console.log({
-  //   state,
-  //   player: handsDealt[0],
-  //   dealer: handsDealt[1],
-
-  // })
-
   return (
     <View style={styles.container}>
+      <InfoPanel state={state} />
       <View style={{ flex: 0.7 }}>
         <HandRow step={step} cards={handsDealt[handsDealt.length - 1]} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
-      </View>
-      <View style={{ borderWidth: 1, padding: '3%' }}>
-        <Text>🃏 Deck</Text>
-        <Text>💲 {bet * (handCount - 1)}</Text>
-        <Text> ♦️♣️❤♠️ {handCount - 1}</Text>
       </View>
       <ScrollView style={styles.flexOne}>
         {renderHands()}

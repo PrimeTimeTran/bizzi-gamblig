@@ -197,7 +197,7 @@ function calculateSumOfCards (cards) {
   return total
 }
 
-function shuffledCards () {
+function shuffledCards() {
   const deck = DECK
   for (let i = 0; i < 100; i++) {
     const location1 = Math.floor(Math.random() * 52)

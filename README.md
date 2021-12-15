@@ -1,39 +1,34 @@
-# Notes
+# Description
 
-# Rules
+React Native BlackJack game
+
+## Rules
 
 1. Seat 1 gets first card
 2. No splitting
 3. No double down
 
-
-# TODO
+## TODO
 
 - If dealer gets 21 Auto win
 - If user gets 21 Auto win
 - If both user & dealer gets 21 push
 - If user gets 21 automatically skip that hand play
 
-# Steps
+## Steps
 
-0. Choose handcount, bet amount.
+0. Choose hand count, bet amount.
 1. Work through hands 1 by 1 until it's the dealers turn.
 2. Show results of round to user.
 3. Wait for user to choose to begin another round.
 
-# App State
+## App State
 
 ```js
 {
   appState: {
     step: 0,
-      // 0. Pregame:
-        // - Choose bet amount
-        // - Choose num of hands
-      // 1. Dealt: 
-        // - Dealer & player have cards. 
-        // - Player begins to act on hands.
-      // 2. Over: Result screen and change bet & handcount.
+      // 2. Over: Result screen and change bet & hand count.
     bet: 100,
     handCount: 1,
     userName: 'PrimeTimeTran',
@@ -89,15 +84,17 @@
 }
 ```
 
-# Goals
+## Modes
 
+### Normal
 
+### Premium
 
+## Goals
 
-# Outcome
+## Outcome
 
-
-
-
-1. How to import and use SVG using [React Native SVG Transformer](https://github.com/kristerkari/react-native-svg-transformer)
-2. 
+- Define component
+- Pass props
+- Consume props
+- Use [React Native SVG Transformer](https://github.com/kristerkari/react-native-svg-transformer)
