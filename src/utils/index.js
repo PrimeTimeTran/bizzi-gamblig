@@ -217,7 +217,6 @@ function dealHands(handCount) {
   let handIdx = 0
 
   while (handIdx < handCount) {
-    console.log({ handsDealt });
     handsDealt[handIdx] ||= []
     handsDealt[handIdx].push(cards.pop())
     handIdx++
@@ -230,8 +229,6 @@ function dealHands(handCount) {
   }
 
   cardsRemaining = cards.filter(Boolean)
-
-  console.log({ cardsRemaining, handsDealt });
 
   return [handsDealt, cardsRemaining]
 }

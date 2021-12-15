@@ -10,7 +10,7 @@ import {
 import Composer from './Composer'
 import HandRow from './HandRow'
 
-import { shuffledCards, calculateSumOfCards } from '../utils'
+import { dealHands, shuffledCards, calculateSumOfCards } from '../utils'
 
 const shuffledDeck = shuffledCards()
 
@@ -43,29 +43,9 @@ export default function Game() {
   const startGame = () => {
     const {
       handCount,
-      handsDealt,
-      cardsRemaining: cards
     } = state
 
-    let handIdx = 0
-
-    // const go = dealHands(handCount)
-    // console.log({ go });
-
-    while (handIdx < handCount) {
-      handsDealt[handIdx] ||= []
-      handsDealt[handIdx].push(cards.pop())
-      handIdx++
-    }
-
-    handIdx = 0
-    while (handIdx < handCount) {
-      handsDealt[handIdx].push(cards.pop())
-      handIdx++
-    }
-
-    const cardsRemaining = cards.filter(Boolean)
-
+    const [handsDealt, cardsRemaining] = dealHands(handCount)
     setState({
       ...state,
       step: 1,
@@ -144,7 +124,8 @@ export default function Game() {
         } = state
         const dealerIdx = handFocusedIdx + 1
         const dealerHand = handsDealt[dealerIdx]
-        while (dealerHand.length < 5 && calculateSumOfCards(dealerHand) <= 16) {
+        while (dealerHand.length < 5 && calculateSumOfCards(dealerHand) <= 15) {
+          r
           dealerHand.push(cards.pop())
         }
         const cardsRemaining = cards.filter(Boolean)

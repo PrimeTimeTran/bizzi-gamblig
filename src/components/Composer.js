@@ -9,7 +9,7 @@ import {
 
 import { calculateSumOfCards } from '../utils'
 
-function RoundScoreBoard() {
+function RoundScoreBoard({ state }) {
   return (
     <View>
       <Text>ScoreBoard</Text>
@@ -85,7 +85,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
     return (
       <View style={styles.container}>
         {renderOutcome()}
-        <RoundScoreBoard />
+        <RoundScoreBoard state={state} />
       </View>
     )
   }
