@@ -209,10 +209,38 @@ function shuffledCards() {
   return deck
 }
 
+
+function dealHands(handCount) {
+  let cards = shuffledCards()
+  const handsDealt = []
+
+  let handIdx = 0
+
+  while (handIdx < handCount) {
+    console.log({ handsDealt });
+    handsDealt[handIdx] ||= []
+    handsDealt[handIdx].push(cards.pop())
+    handIdx++
+  }
+
+  handIdx = 0
+  while (handIdx < handCount) {
+    handsDealt[handIdx].push(cards.pop())
+    handIdx++
+  }
+
+  cardsRemaining = cards.filter(Boolean)
+
+  console.log({ cardsRemaining, handsDealt });
+
+  return [handsDealt, cardsRemaining]
+}
+
 export {
   BACK,
   DECK,
   getDeck,
+  dealHands,
   shuffledCards,
   calculateSumOfCards,
   PLACEHOLDER

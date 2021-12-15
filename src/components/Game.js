@@ -29,7 +29,7 @@ export default function Game() {
   const [state, setState] = useState({
     step: 0,
     bet: 100,
-    handCount: 2,
+    handCount: 6,
     handsDealt: [],
     handFocusedIdx: 0,
     cardsRemaining: shuffledDeck,
@@ -48,6 +48,9 @@ export default function Game() {
     } = state
 
     let handIdx = 0
+
+    // const go = dealHands(handCount)
+    // console.log({ go });
 
     while (handIdx < handCount) {
       handsDealt[handIdx] ||= []
@@ -68,7 +71,7 @@ export default function Game() {
       step: 1,
       handsDealt,
       cardsRemaining
-    }) 
+    })
   }
 
   const hit = () => {
@@ -77,13 +80,14 @@ export default function Game() {
       handFocusedIdx,
       cardsRemaining: cards
     } = state
-    const newHand = handsDealt[handFocusedIdx]
+    const hand = handsDealt[handFocusedIdx]
+    if (hand.length === 5) return
 
-    if (newHand.length === 5) return
+    if (calculateSumOfCards(hand) === 21) return
 
-    newHand.push(cards.pop())
+    hand.push(cards.pop())
     const cardsRemaining = cards.filter(Boolean)
-    handsDealt[handFocusedIdx] = newHand
+    handsDealt[handFocusedIdx] = hand
     setState({
       ...state,
       handsDealt,
@@ -114,12 +118,12 @@ export default function Game() {
   }
 
   const renderHands = () => {
-    const { handCount } = state
+    const { handCount, handFocusedIdx, step, handsDealt } = state
     let idx = 0
     let texts = []
     let numOfUserHands = handCount - 1
     while (numOfUserHands > idx) {
-      texts.push(<HandRow key={idx} step={state.step} cards={state.handsDealt[idx]} player='Player' handNum={idx + 1} focused={state.handFocusedIdx === idx} />)
+      texts.push(<HandRow key={idx} step={step} cards={handsDealt[idx]} player='Player' handNum={idx + 1} focused={handFocusedIdx === idx} />)
       idx++
     }
     return texts

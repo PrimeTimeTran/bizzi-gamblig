@@ -44,6 +44,13 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
 
   const rowStyles = { ...styles.rowTitle, alignSelf: isDealer ? 'flex-start' : 'flex-end' }
 
+  // const isANatural = calculateSumOfCards(cards) === 21 && cards.length === 2
+
+
+  // if (isANatural) {
+  //   console.log({ isANatural, cards });
+  // }
+
   return (
     <View key={idx} style={[styles.row]}>
       {player === 'Dealer' &&
@@ -62,19 +69,6 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    marginTop: '10%',
-    flexDirection: 'column',
-  },
-  flexOne: {
-    flex: 1,
-  },
-  title: {
-    fontWeight: 'bold',
-    alignSelf: 'center'
-  },
   row: {
     width: '100%',
     padding: 10,
@@ -91,11 +85,6 @@ const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
     borderColor: 'black'
-  },
-  composorRow: {
-    padding: '1%',
-    flexDirection: 'row',
-    justifyContent: 'space-around'
   },
   key: {
     flex: 1

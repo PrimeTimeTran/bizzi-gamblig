@@ -28,15 +28,18 @@ React Native BlackJack game
 {
   appState: {
     step: 0,
-      // 2. Over: Result screen and change bet & hand count.
     bet: 100,
     handCount: 1,
     userName: 'PrimeTimeTran',
     activeHand: {
-      dealtCards: [],
-      dealerCards: [],
-      playerCards: [],
-      remainingCards: [],
+      step: 0,
+      bet: 100,
+      handCount: 2,
+      handsDealt: [],
+      handFocusedIdx: 0,
+      cardsRemaining: [],
+      mode: 'normal',
+      cardsRemaining: [],
     },
     users: [
       {
@@ -45,36 +48,14 @@ React Native BlackJack game
         username: 'PrimeTimeTran',
         rounds: [
           {
-            handCount: 2,
+            bet: 100,
+            handCount: 2, 
+            mode: 'normal',
+            cardsRemaining: [],
             handsDealt: [
               {
-                bet: 100,
-                cards: [
-                  {
-                    value: 'A',
-                    suit: 'spades',
-                  },
-                  {
-                    value: 'A',
-                    suit: 'clubs',
-                  },
-                ],
-                handOutcome: ['win'],
-              },
-              {
-                bet: null,
-                cards: [
-                  {
-                    value: 'K',
-                    suit: 'hearts',
-                  },
-                  {
-                    value: 'K',
-                    suit: 'diamonds',
-                  },
-                ],
-                handOutcome: ['lose'],
-              },
+                
+              }
             ]
           },
         ]
