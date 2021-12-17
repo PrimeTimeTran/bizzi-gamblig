@@ -191,7 +191,7 @@ function shuffledCards() {
 
 function dealHands(handCount) {
   let cards = shuffledCards()
-  const handsDealt = []
+  let handsDealt = []
 
   let handIdx = 0
 
@@ -207,15 +207,14 @@ function dealHands(handCount) {
     handIdx++
   }
 
-  cardsRemaining = cards.filter(Boolean)
-  const go = handsDealt.map(h => ({
+  handsDealt = handsDealt.map(h => ({
     cards: h,
     sum: calculateSumOfCards(h)
   }))
 
-  console.log({ go });
+  cardsRemaining = cards.filter(Boolean)
 
-  return [go, cardsRemaining]
+  return [handsDealt, cardsRemaining]
 }
 
 export {

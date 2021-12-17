@@ -11,10 +11,12 @@ import { BACK, calculateSumOfCards } from '../utils'
 
 function HandRow({ idx, cards, player, handNum, step, focused, show }) {
   const renderCard = (c, idx) => {
+    const sumUpToCard = calculateSumOfCards([...cards].splice(0, idx + 1))
     return (
       <View>
         <Text>{idx + 1}</Text>
         {c.component}
+        <Text>{sumUpToCard}</Text>
       </View>
     )
   }

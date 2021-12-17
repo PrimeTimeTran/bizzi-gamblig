@@ -36,11 +36,10 @@ React Native BlackJack game
       step: 0,
       bet: 100,
       handCount: 2,
-      handsDealt: [],
-      handFocusedIdx: 0,
-      cardsRemaining: [],
       mode: 'normal',
-      cardsRemaining: [],
+      handFocusedIdx: 0,
+      handsDealt: [{}, {}],
+      cardsRemaining: [{}, {}],
     },
     users: [
       {
@@ -52,10 +51,12 @@ React Native BlackJack game
             bet: 100,
             handCount: 2, 
             mode: 'normal',
-            cardsRemaining: [],
+            cardsRemaining: [{}, {}],
             handsDealt: [
               {
-                
+                cards: [{}, {}],
+                sum: 21
+                outcome: 'win'
               }
             ]
           },
