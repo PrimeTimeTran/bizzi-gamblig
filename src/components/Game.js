@@ -10,9 +10,7 @@ import {
 import Composer from './Composer'
 import HandRow from './HandRow'
 
-import { dealHands, shuffledCards, calculateSumOfCards } from '../utils'
-
-const shuffledDeck = shuffledCards()
+import { dealHands, calculateSumOfCards } from '../utils'
 
 function InfoPanel(props) {
   const { bet, handCount } = props.state
@@ -25,18 +23,25 @@ function InfoPanel(props) {
   )
 }
 
-export default function Game() {
+export default function Game(props) {
   const [state, setState] = useState({
     step: 0,
     bet: 100,
     handCount: 6,
-    handsDealt: [],
+    handsDealt: [
+      {
+        cards: [],
+      },
+      {
+        cards: [],
+      },
+    ],
     handFocusedIdx: 0,
-    cardsRemaining: shuffledDeck,
+    cardsRemaining: [],
     mode: ['normal', 'premium'],
     player: {
       balance: 100000,
-      username: 'PrimeTimeTran',
+      username: props.player && props.player.username || 'Player',
     }
   })
 
@@ -61,11 +66,11 @@ export default function Game() {
       cardsRemaining: cards
     } = state
     const hand = handsDealt[handFocusedIdx]
-    if (hand.length === 5) return
+    if (hand.cards.length === 5) return
 
-    if (calculateSumOfCards(hand) === 21) return
+    if (hand.sum === 21) return
 
-    hand.push(cards.pop())
+    hand.cards.push(cards.pop())
     const cardsRemaining = cards.filter(Boolean)
     handsDealt[handFocusedIdx] = hand
     setState({
@@ -103,41 +108,36 @@ export default function Game() {
     let texts = []
     let numOfUserHands = handCount - 1
     while (numOfUserHands > idx) {
-      texts.push(<HandRow key={idx} step={step} cards={handsDealt[idx]} player='Player' handNum={idx + 1} focused={handFocusedIdx === idx} />)
+      texts.push(<HandRow key={idx} step={step} cards={handsDealt[idx] && handsDealt[idx].cards} player='Player' handNum={idx + 1} focused={handFocusedIdx === idx} />)
       idx++
     }
     return texts
   }
 
   // Indicate to user which hand # their actions apply to
-  useEffect(() => {
-    renderHands()
-  }, [state.handFocusedIdx])
+  useEffect(renderHands, [state.handFocusedIdx])
 
   useEffect(() => {
-    function hitForDealerIfCorrectStep() {
-      if (state.step === 2) {
-        const {
-          handsDealt,
-          handFocusedIdx,
-          cardsRemaining: cards
-        } = state
-        const dealerIdx = handFocusedIdx + 1
-        const dealerHand = handsDealt[dealerIdx]
-        while (dealerHand.length < 5 && calculateSumOfCards(dealerHand) <= 15) {
-          r
-          dealerHand.push(cards.pop())
-        }
-        const cardsRemaining = cards.filter(Boolean)
-        handsDealt[dealerIdx] = dealerHand
-        setState({
-          ...state,
-          handsDealt,
-          cardsRemaining
-        })
+    if (state.step === 2) {
+      const {
+        handsDealt,
+        handFocusedIdx,
+        cardsRemaining: cards
+      } = state
+      const dealerIdx = handFocusedIdx + 1
+      const dealerHand = handsDealt[dealerIdx]
+      while (dealerHand.cards.length < 5 && dealerHand.sum < 16) {
+        dealerHand.cards.push(cards.pop())
+        dealerHand.sum = calculateSumOfCards(dealerHand.cards)
       }
+      const cardsRemaining = cards.filter(Boolean)
+      handsDealt[dealerIdx] = dealerHand
+      setState({
+        ...state,
+        handsDealt,
+        cardsRemaining
+      })
     }
-    hitForDealerIfCorrectStep()
   }, [state.step])
 
   const {
@@ -150,7 +150,7 @@ export default function Game() {
     <View style={styles.container}>
       <InfoPanel state={state} />
       <View style={{ flex: 0.7 }}>
-        <HandRow step={step} cards={handsDealt[handsDealt.length - 1]} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
+        <HandRow step={step} cards={handsDealt[handsDealt.length - 1].cards} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
       </View>
       <ScrollView style={styles.flexOne}>
         {renderHands()}

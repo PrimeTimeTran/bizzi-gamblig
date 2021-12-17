@@ -10,10 +10,11 @@ React Native BlackJack game
 
 ## TODO
 
-- If dealer gets 21 Auto win
-- If user gets 21 Auto win
-- If both user & dealer gets 21 push
-- If user gets 21 automatically skip that hand play
+- If dealer gets 21 auto win.
+- If user gets 21 auto win.
+- If both user & dealer gets 21 push.
+- If user gets 21 automatically skip that hand play.
+- 5 cards under 21 should be auto win if other user isn't holding a natural.
 
 ## Steps
 

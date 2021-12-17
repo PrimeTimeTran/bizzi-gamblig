@@ -122,27 +122,6 @@ const DECK = [
   { value: '2', suit: 'spades', component: <S2 width={cardWidth} height={cardHeight} /> }
 ]
 
-const suits = ['spades', 'diamonds', 'clubs', 'hearts']
-
-const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-
-function getDeck () {
-  const deck = new Array()
-  for (let idxSuit = 0; idxSuit < suits.length; idxSuit++) {
-    for (let idxValue = 0; idxValue < values.length; idxValue++) {
-      const name = `${values[idxValue]}-${suits[idxSuit]}.svg`
-      const card = {
-        file: 1,
-        value: values[idxValue],
-        suit: suits[idxSuit],
-        component: AS
-      }
-      deck.push(card)
-    }
-  }
-  return deck
-}
-
 // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-70.php
 const countOccurrences = (arr, val) =>
   arr.reduce((a, v) => (v === val ? a + 1 : a), 0)
@@ -229,14 +208,19 @@ function dealHands(handCount) {
   }
 
   cardsRemaining = cards.filter(Boolean)
+  const go = handsDealt.map(h => ({
+    cards: h,
+    sum: calculateSumOfCards(h)
+  }))
 
-  return [handsDealt, cardsRemaining]
+  console.log({ go });
+
+  return [go, cardsRemaining]
 }
 
 export {
   BACK,
   DECK,
-  getDeck,
   dealHands,
   shuffledCards,
   calculateSumOfCards,

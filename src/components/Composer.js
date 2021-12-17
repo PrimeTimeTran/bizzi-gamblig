@@ -7,8 +7,6 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import { calculateSumOfCards } from '../utils'
-
 function RoundScoreBoard({ state }) {
   return (
     <View>
@@ -59,8 +57,8 @@ function Composer({ startGame, stay, setState, hit, state }) {
 
   const renderOutcomeText = (idx) => {
     const { handsDealt } = state
-    const dealerSum = calculateSumOfCards(handsDealt[handsDealt.length - 1])
-    const handSum = calculateSumOfCards(handsDealt[idx])
+    const dealerSum = handsDealt[handsDealt.length - 1].sum
+    const handSum = handsDealt[idx].sum
     if (dealerSum === handSum) return 'Push'
     if (dealerSum > 21 && handSum > 21) return 'Push'
     if (handSum > 21 && dealerSum <= 21) return 'Lose'
@@ -82,6 +80,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
   }
 
   if (step === 2) {
+    console.log({ composerState: state })
     return (
       <View style={styles.container}>
         {renderOutcome()}
