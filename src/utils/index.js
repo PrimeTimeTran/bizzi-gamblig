@@ -209,7 +209,8 @@ function dealHands(handCount) {
 
   handsDealt = handsDealt.map(h => ({
     cards: h,
-    sum: calculateSumOfCards(h)
+    sum: calculateSumOfCards(h),
+    natural: calculateSumOfCards(h) === 21
   }))
 
   cardsRemaining = cards.filter(Boolean)

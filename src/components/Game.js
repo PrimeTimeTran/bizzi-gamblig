@@ -28,6 +28,13 @@ export default function Game(props) {
     step: 0,
     bet: 100,
     handCount: 6,
+    handFocusedIdx: 0,
+    cardsRemaining: [],
+    mode: ['normal', 'premium'],
+    player: {
+      balance: 100000,
+      username: props.player && props.player.username || 'Player',
+    },
     handsDealt: [
       {
         cards: [],
@@ -36,13 +43,6 @@ export default function Game(props) {
         cards: [],
       },
     ],
-    handFocusedIdx: 0,
-    cardsRemaining: [],
-    mode: ['normal', 'premium'],
-    player: {
-      balance: 100000,
-      username: props.player && props.player.username || 'Player',
-    }
   })
 
   const startGame = () => {
@@ -71,6 +71,7 @@ export default function Game(props) {
     if (hand.sum === 21) return
 
     hand.cards.push(cards.pop())
+    hand.sum = calculateSumOfCards(hand.cards)
     const cardsRemaining = cards.filter(Boolean)
     handsDealt[handFocusedIdx] = hand
     setState({

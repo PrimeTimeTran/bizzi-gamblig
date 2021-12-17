@@ -58,7 +58,16 @@ function Composer({ startGame, stay, setState, hit, state }) {
   const renderOutcomeText = (idx) => {
     const { handsDealt } = state
     const dealerSum = handsDealt[handsDealt.length - 1].sum
+
     const handSum = handsDealt[idx].sum
+
+    console.log(
+      {
+        handSum,
+        dealerSum,
+      }
+    );
+
     if (dealerSum === handSum) return 'Push'
     if (dealerSum > 21 && handSum > 21) return 'Push'
     if (handSum > 21 && dealerSum <= 21) return 'Lose'
@@ -83,8 +92,8 @@ function Composer({ startGame, stay, setState, hit, state }) {
     console.log({ composerState: state })
     return (
       <View style={styles.container}>
-        {renderOutcome()}
         <RoundScoreBoard state={state} />
+        {renderOutcome()}
       </View>
     )
   }

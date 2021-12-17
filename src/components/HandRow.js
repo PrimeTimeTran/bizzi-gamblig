@@ -13,10 +13,12 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
   const renderCard = (c, idx) => {
     const sumUpToCard = calculateSumOfCards([...cards].splice(0, idx + 1))
     return (
-      <View>
-        <Text>{idx + 1}</Text>
-        {c.component}
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        <Text style={{ margin: 3, alignSelf: 'flex-end' }}>{idx + 1}</Text>
+        <View style={{ flex: 1, alignItems: 'flex-start' }}>
         <Text>{sumUpToCard}</Text>
+          {c.component || BACK}
+        </View>
       </View>
     )
   }
@@ -29,7 +31,7 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
         dealtCards.push(renderCard(v, i))
       } else {
         if (step === 1) {
-          dealtCards.push(renderCard(BACK))
+          dealtCards.push(renderCard(BACK, i))
         }
         if (step === 2) {
           dealtCards.push(renderCard(v, i))
