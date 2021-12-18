@@ -49,13 +49,6 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
 
   const rowStyles = { ...styles.rowTitle, alignSelf: isDealer ? 'flex-start' : 'flex-end' }
 
-  // const isANatural = calculateSumOfCards(cards) === 21 && cards.length === 2
-
-
-  // if (isANatural) {
-  //   console.log({ isANatural, cards });
-  // }
-
   return (
     <View key={idx} style={[styles.row]}>
       {player === 'Dealer' &&

@@ -150,7 +150,7 @@ export default function Game(props) {
   return (
     <View style={styles.container}>
       <InfoPanel state={state} />
-      <View style={{ flex: 0.7 }}>
+      <View style={{ flex: 0.8, borderBottomWidth: 1 }}>
         <HandRow step={step} cards={handsDealt[handsDealt.length - 1].cards} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
       </View>
       <ScrollView style={styles.flexOne}>

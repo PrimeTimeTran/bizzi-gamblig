@@ -213,6 +213,9 @@ function dealHands(handCount) {
     natural: calculateSumOfCards(h) === 21
   }))
 
+  const dealerHand = handsDealt[handsDealt.length - 1]
+  const isNatural = dealerHand.natural
+
   cardsRemaining = cards.filter(Boolean)
 
   return [handsDealt, cardsRemaining]

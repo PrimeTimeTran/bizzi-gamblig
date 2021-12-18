@@ -8,9 +8,50 @@ import {
 } from 'react-native'
 
 function RoundScoreBoard({ state }) {
+  const renderBetOutcome = () => {
+
+    return (
+      <View>
+
+      </View>
+    )
+  }
+  const renderOutcomeText = (idx) => {
+    const { handsDealt } = state
+    const handSum = handsDealt[idx].sum
+    const dealerSum = handsDealt[handsDealt.length - 1].sum
+
+    console.log(
+      {
+        handSum,
+        dealerSum,
+      }
+    );
+
+    if (dealerSum === handSum) return 'Push'
+    if (dealerSum > 21 && handSum > 21) return 'Push'
+    if (handSum > 21 && dealerSum <= 21) return 'Lose'
+    if (dealerSum > 21 && handSum <= 21) return 'Win'
+    return dealerSum > handSum ? 'Lose' : 'Win'
+  }
+
+  const renderOutcome = () => {
+    const { handsDealt } = state
+    let handIdx = 0
+    const results = []
+    while (handIdx < handsDealt.length - 1) {
+      results.push(
+        <Text>{renderOutcomeText(handIdx)}</Text>
+      )
+      handIdx++
+    }
+    return results
+  }
+
   return (
     <View>
       <Text>ScoreBoard</Text>
+      {renderOutcome()}
     </View>
   )
 }
@@ -55,45 +96,10 @@ function Composer({ startGame, stay, setState, hit, state }) {
     )
   }
 
-  const renderOutcomeText = (idx) => {
-    const { handsDealt } = state
-    const dealerSum = handsDealt[handsDealt.length - 1].sum
-
-    const handSum = handsDealt[idx].sum
-
-    console.log(
-      {
-        handSum,
-        dealerSum,
-      }
-    );
-
-    if (dealerSum === handSum) return 'Push'
-    if (dealerSum > 21 && handSum > 21) return 'Push'
-    if (handSum > 21 && dealerSum <= 21) return 'Lose'
-    if (dealerSum > 21 && handSum <= 21) return 'Win'
-    return dealerSum > handSum ? 'Lose' : 'Win'
-  }
-
-  const renderOutcome = () => {
-    const { handsDealt } = state
-    let handIdx = 0
-    const results = []
-    while (handIdx < handsDealt.length - 1) {
-      results.push(
-        <Text>{renderOutcomeText(handIdx)}</Text>
-      )
-      handIdx++
-    }
-    return results
-  }
-
   if (step === 2) {
-    console.log({ composerState: state })
     return (
       <View style={styles.container}>
         <RoundScoreBoard state={state} />
-        {renderOutcome()}
       </View>
     )
   }
