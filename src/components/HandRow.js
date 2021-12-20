@@ -56,15 +56,15 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
           {renderCards()} 
         </ScrollView>}
       <Text style={rowStyles} />
-      <Text style={rowStyles}>{text}</Text>
-      <Text style={rowStyles}>{calculateSumOfCards(cards)}</Text>
+      <Text style={[rowStyles, calculateSumOfCards(cards) > 21 && { color: 'red' }]}>{text}</Text>
+      <Text style={[rowStyles, calculateSumOfCards(cards) > 21 && { color: 'red' }]}>{calculateSumOfCards(cards)}</Text>
       {player === 'Player' &&
         <ScrollView
           horizontal
           style={[
             styles.rowContainer,
-            { borderWidth: 1.5 }, step === 1 && focused && { borderColor: 'green' },
-            calculateSumOfCards(cards) > 21 && { borderColor: 'red' },
+            { borderTopWidth: 1, borderRightWidth: 1 }, step === 1 && focused && { borderColor: 'green' },
+            calculateSumOfCards(cards) > 21 && { borderColor: 'red', borderWidth: 1 },
             calculateSumOfCards(cards) === 21 && { borderColor: 'gold' },
           ]}
         >
