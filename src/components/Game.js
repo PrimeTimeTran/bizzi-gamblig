@@ -72,7 +72,7 @@ export default function Game(props) {
     } = state
     const hand = handsDealt[handFocusedIdx]
     if (hand.cards.length === 5) return
-    if (hand.sum === 21) return
+    if (hand.sum >= 21) return
 
     hand.cards.push(cards.pop())
     hand.sum = calculateSumOfCards(hand.cards)

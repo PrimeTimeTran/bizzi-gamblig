@@ -16,7 +16,7 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <Text style={{ margin: 3, alignSelf: 'flex-end' }}>{idx + 1}</Text>
         <View style={{ flex: 1, alignItems: 'flex-start' }}>
-        <Text>{sumUpToCard}</Text>
+          <Text style={{ color: 'grey', alignSelf: 'flex-end' }}>{sumUpToCard}</Text>
           {c.component || BACK}
         </View>
       </View>
@@ -59,7 +59,15 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
       <Text style={rowStyles}>{text}</Text>
       <Text style={rowStyles}>{calculateSumOfCards(cards)}</Text>
       {player === 'Player' &&
-        <ScrollView horizontal style={[styles.rowContainer, { borderWidth: 1.5 }, step === 1 && focused && { borderColor: 'green' }]}>
+        <ScrollView
+          horizontal
+          style={[
+            styles.rowContainer,
+            { borderWidth: 1.5 }, step === 1 && focused && { borderColor: 'green' },
+            calculateSumOfCards(cards) > 21 && { borderColor: 'red' },
+            calculateSumOfCards(cards) === 21 && { borderColor: 'gold' },
+          ]}
+        >
           {renderCards()}
         </ScrollView>}
     </View>
