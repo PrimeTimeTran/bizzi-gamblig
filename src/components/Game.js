@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
-
 import {
   Text,
   View,
   ScrollView,
   StyleSheet,
 } from 'react-native'
-import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import { LinearGradient } from 'expo-linear-gradient';
-
-
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 
 import Composer from './Composer'
 import HandRow from './HandRow'
@@ -79,6 +76,7 @@ export default function Game(props) {
 
     hand.cards.push(cards.pop())
     hand.sum = calculateSumOfCards(hand.cards)
+    hand.fiveCardCharlie = calculateSumOfCards(hand.cards) < 22 && hand.cards.length === 5
     const cardsRemaining = cards.filter(Boolean)
     handsDealt[handFocusedIdx] = hand
     setState({

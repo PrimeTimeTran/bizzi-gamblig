@@ -40,11 +40,9 @@ function RoundScoreBoard({ state }) {
           <Text
             style={{ color }}
           >
-            <Text>
-              {handIdx + 1}  - {' '}{result}
-            </Text>
+            {handIdx + 1}  - {' '}{result}
           </Text>
-          <Text style={{ color }}>{sign} {result !== 'Push' && bet}</Text>
+          <Text style={{ color }}>{sign} {result !== 'Push' && bet || 0}</Text>
         </View>
       )
       handIdx++

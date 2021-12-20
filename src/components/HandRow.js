@@ -50,16 +50,16 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
   const rowStyles = { ...styles.rowTitle, alignSelf: isDealer ? 'flex-start' : 'flex-end' }
 
   return (
-    <View key={idx} style={[styles.row]}>
+    <View key={idx} style={styles.row}>
       {player === 'Dealer' &&
         <ScrollView horizontal style={[styles.rowContainer]}>
-          {renderCards()}
+          {renderCards()} 
         </ScrollView>}
       <Text style={rowStyles} />
       <Text style={rowStyles}>{text}</Text>
       <Text style={rowStyles}>{calculateSumOfCards(cards)}</Text>
       {player === 'Player' &&
-        <ScrollView horizontal style={[styles.rowContainer, { borderWidth: 1 }, step === 1 && focused && { borderColor: 'green' }]}>
+        <ScrollView horizontal style={[styles.rowContainer, { borderWidth: 1.5 }, step === 1 && focused && { borderColor: 'green' }]}>
           {renderCards()}
         </ScrollView>}
     </View>
