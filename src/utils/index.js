@@ -64,7 +64,7 @@ const BACK = <View style={{ width: cardWidth, height: cardHeight, borderWidth: 1
 const PLACEHOLDER = <View style={{ width: cardWidth, height: cardHeight }}></View>
 
 const DECK = [
-  { value: 'A', suit: 'hearts', component: <View style={{ width: cardWidth, height: cardHeight }}><AH width={cardWidth} height={cardHeight} /></View> },
+  { value: 'A', suit: 'hearts', component: <AH width={cardWidth} height={cardHeight} /> },
   { value: 'K', suit: 'hearts', component: <KH width={cardWidth} height={cardHeight} /> },
   { value: 'Q', suit: 'hearts', component: <QH width={cardWidth} height={cardHeight} /> },
   { value: 'J', suit: 'hearts', component: <JH width={cardWidth} height={cardHeight} /> },
@@ -106,7 +106,6 @@ const DECK = [
   { value: '3', suit: 'clubs', component: <C3 width={cardWidth} height={cardHeight} /> },
   { value: '2', suit: 'clubs', component: <C2 width={cardWidth} height={cardHeight} /> },
 
-  // { value: "A", suit: "spades", component: <AS width={cardWidth} height={cardHeight} /> },
   { value: 'A', suit: 'spades', component: <AS width={cardWidth} height={cardHeight} /> },
   { value: 'K', suit: 'spades', component: <KS width={cardWidth} height={cardHeight} /> },
   { value: 'Q', suit: 'spades', component: <QS width={cardWidth} height={cardHeight} /> },
@@ -176,6 +175,12 @@ function calculateSumOfCards (cards) {
   return total
 }
 
+function calculateRoundOutcome(hands, bet) {
+  const loseSum = countOccurrences(hands, 'Lose')
+  const winSum = countOccurrences(hands, 'Win')
+  return (winSum * bet) - (loseSum * bet)
+}
+
 function shuffledCards() {
   const deck = DECK
   for (let i = 0; i < 100; i++) {
@@ -214,18 +219,19 @@ function dealHands(handCount) {
   }))
 
   const dealerHand = handsDealt[handsDealt.length - 1]
-  const isNatural = dealerHand.natural
+  const dealerNat = dealerHand.natural
 
   cardsRemaining = cards.filter(Boolean)
 
-  return [handsDealt, cardsRemaining]
+  return [handsDealt, cardsRemaining, dealerNat]
 }
 
 export {
   BACK,
   DECK,
   dealHands,
+  PLACEHOLDER,
   shuffledCards,
   calculateSumOfCards,
-  PLACEHOLDER
+  calculateRoundOutcome,
 }

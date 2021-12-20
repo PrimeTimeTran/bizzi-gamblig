@@ -7,26 +7,21 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-function RoundScoreBoard({ state }) {
-  const renderBetOutcome = () => {
+import { calculateRoundOutcome } from '../utils'
 
+function RoundScoreBoard({ state }) {
+  const { handsDealt } = state
+
+  const renderBetOutcome = () => {
     return (
       <View>
 
       </View>
     )
   }
-  const renderOutcomeText = (idx) => {
-    const { handsDealt } = state
+  const outcome = (idx) => {
     const handSum = handsDealt[idx].sum
     const dealerSum = handsDealt[handsDealt.length - 1].sum
-
-    console.log(
-      {
-        handSum,
-        dealerSum,
-      }
-    );
 
     if (dealerSum === handSum) return 'Push'
     if (dealerSum > 21 && handSum > 21) return 'Push'
@@ -36,20 +31,47 @@ function RoundScoreBoard({ state }) {
   }
 
   const renderOutcome = () => {
-    const { handsDealt } = state
+    const { handsDealt, bet } = state
     let handIdx = 0
     const results = []
+    const values = []
     while (handIdx < handsDealt.length - 1) {
+      const result = outcome(handIdx)
+      const color = result === 'Win' ? 'green' : result === 'Lose' ? 'red' : null
+      const sign = result === 'Win' ? '+' : result === 'Lose' ? '-' : null
+      values.push(result)
       results.push(
-        <Text>{renderOutcomeText(handIdx)}</Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-between',
+            alignItems: 'flex-between',
+            flexDirection: 'row',
+
+          }}>
+          <Text
+            style={{ color }}
+          >
+            <Text>
+              {handIdx + 1}  - {' '}{result}
+            </Text>
+          </Text>
+          <Text style={{ color }}>{sign} {result !== 'Push' && bet}</Text>
+        </View>
       )
       handIdx++
     }
+    const finalBetResult = calculateRoundOutcome(values, bet)
+    results.push(
+      <View style={{ marginBottom: '20%', alignItems: 'flex-end' }}>
+        <Text>Round Outcome: {finalBetResult}</Text>
+      </View>
+    )
     return results
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>ScoreBoard</Text>
       {renderOutcome()}
     </View>
@@ -98,9 +120,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
 
   if (step === 2) {
     return (
-      <View style={styles.container}>
-        <RoundScoreBoard state={state} />
-      </View>
+      <RoundScoreBoard state={state} />
     )
   }
 }

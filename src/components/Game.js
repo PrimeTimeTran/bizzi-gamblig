@@ -27,10 +27,11 @@ export default function Game(props) {
   const [state, setState] = useState({
     step: 0,
     bet: 100,
-    handCount: 6,
+    handCount: 2,
     handFocusedIdx: 0,
     cardsRemaining: [],
-    mode: ['normal', 'premium'],
+    dealerNatural: false,
+    mode: ['normal', 'help', 'statistics', 'premium'],
     player: {
       balance: 100000,
       username: props.player && props.player.username || 'Player',
@@ -50,11 +51,12 @@ export default function Game(props) {
       handCount,
     } = state
 
-    const [handsDealt, cardsRemaining] = dealHands(handCount)
+    const [handsDealt, cardsRemaining, dealerNatural] = dealHands(handCount)
     setState({
       ...state,
       step: 1,
       handsDealt,
+      dealerNatural,
       cardsRemaining
     })
   }
@@ -67,7 +69,6 @@ export default function Game(props) {
     } = state
     const hand = handsDealt[handFocusedIdx]
     if (hand.cards.length === 5) return
-
     if (hand.sum === 21) return
 
     hand.cards.push(cards.pop())
