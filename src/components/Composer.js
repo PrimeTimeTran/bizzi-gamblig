@@ -11,14 +11,8 @@ import { calculateRoundOutcome } from '../utils'
 
 function RoundScoreBoard({ state }) {
   const { handsDealt } = state
+  console.log({ state });
 
-  const renderBetOutcome = () => {
-    return (
-      <View>
-
-      </View>
-    )
-  }
   const outcome = (idx) => {
     const handSum = handsDealt[idx].sum
     const dealerSum = handsDealt[handsDealt.length - 1].sum
@@ -42,13 +36,7 @@ function RoundScoreBoard({ state }) {
       values.push(result)
       results.push(
         <View
-          style={{
-            flex: 1,
-            justifyContent: 'space-between',
-            alignItems: 'flex-between',
-            flexDirection: 'row',
-
-          }}>
+          style={styles.outcomeRow}>
           <Text
             style={{ color }}
           >
@@ -107,7 +95,7 @@ function Composer({ startGame, stay, setState, hit, state }) {
 
   if (step === 1) {
     return (
-      <View style={[styles.container, { alignItems: 'flex-end', justifyContent: 'center' }]}>
+      <View style={styles.container}>
         <TouchableOpacity onPress={stay} style={styles.button}>
           <Text>Stay</Text>
         </TouchableOpacity>
@@ -129,7 +117,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: '1%',
-    borderTopWidth: 1
+    borderTopWidth: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center'
   },
   startButton: {
     flex: 1,
@@ -172,6 +162,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  outcomeRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   }
 })
 

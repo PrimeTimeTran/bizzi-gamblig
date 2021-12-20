@@ -6,11 +6,17 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native'
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
+import { LinearGradient } from 'expo-linear-gradient';
+
+
 
 import Composer from './Composer'
 import HandRow from './HandRow'
 
 import { dealHands, calculateSumOfCards } from '../utils'
+
+const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
 
 function InfoPanel(props) {
   const { bet, handCount } = props.state
@@ -27,7 +33,7 @@ export default function Game(props) {
   const [state, setState] = useState({
     step: 0,
     bet: 100,
-    handCount: 2,
+    handCount: 6,
     handFocusedIdx: 0,
     cardsRemaining: [],
     dealerNatural: false,
@@ -120,26 +126,29 @@ export default function Game(props) {
   useEffect(renderHands, [state.handFocusedIdx])
 
   useEffect(() => {
-    if (state.step === 2) {
-      const {
-        handsDealt,
-        handFocusedIdx,
-        cardsRemaining: cards
-      } = state
-      const dealerIdx = handFocusedIdx + 1
-      const dealerHand = handsDealt[dealerIdx]
-      while (dealerHand.cards.length < 5 && dealerHand.sum < 16) {
-        dealerHand.cards.push(cards.pop())
-        dealerHand.sum = calculateSumOfCards(dealerHand.cards)
+    function takeDealerActionWhenNeeded() {
+      if (state.step === 2) {
+        const {
+          handsDealt,
+          handFocusedIdx,
+          cardsRemaining: cards
+        } = state
+        const dealerIdx = handFocusedIdx + 1
+        const dealerHand = handsDealt[dealerIdx]
+        while (dealerHand.cards.length < 5 && dealerHand.sum < 16) {
+          dealerHand.cards.push(cards.pop())
+          dealerHand.sum = calculateSumOfCards(dealerHand.cards)
+        }
+        const cardsRemaining = cards.filter(Boolean)
+        handsDealt[dealerIdx] = dealerHand
+        setState({
+          ...state,
+          handsDealt,
+          cardsRemaining
+        })
       }
-      const cardsRemaining = cards.filter(Boolean)
-      handsDealt[dealerIdx] = dealerHand
-      setState({
-        ...state,
-        handsDealt,
-        cardsRemaining
-      })
     }
+    takeDealerActionWhenNeeded()
   }, [state.step])
 
   const {
@@ -152,7 +161,9 @@ export default function Game(props) {
     <View style={styles.container}>
       <InfoPanel state={state} />
       <View style={{ flex: 0.8, borderBottomWidth: 1 }}>
-        <HandRow step={step} cards={handsDealt[handsDealt.length - 1].cards} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
+        <ShimmerPlaceholder visible={handsDealt[handsDealt.length - 1].cards}>
+          <HandRow step={step} cards={handsDealt[handsDealt.length - 1].cards} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
+        </ShimmerPlaceholder>
       </View>
       <ScrollView style={styles.flexOne}>
         {renderHands()}
