@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import {
   Text,
   View,
-  ScrollView,
   StyleSheet,
+  ScrollView,
+  SafeAreaView,
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
@@ -27,6 +28,11 @@ function InfoPanel(props) {
 }
 
 export default function Game(props) {
+  const [ref, setRef] = useState(null);
+  const [dataSource, setDataSource] = useState([]);
+  const [scrollToIndex, setScrollToIndex] = useState(0);
+  const [dataSourceCords, setDataSourceCords] = useState([]);
+
   const [state, setState] = useState({
     step: 0,
     bet: 100,
@@ -76,7 +82,7 @@ export default function Game(props) {
 
     hand.cards.push(cards.pop())
     hand.sum = calculateSumOfCards(hand.cards)
-    hand.fiveCardCharlie = calculateSumOfCards(hand.cards) < 22 && hand.cards.length === 5
+    hand.fiveCardCharlie = hand.sum < 22 && hand.cards.length === 5
     const cardsRemaining = cards.filter(Boolean)
     handsDealt[handFocusedIdx] = hand
     setState({
@@ -114,7 +120,19 @@ export default function Game(props) {
     let texts = []
     let numOfUserHands = handCount - 1
     while (numOfUserHands > idx) {
-      texts.push(<HandRow key={idx} step={step} cards={handsDealt[idx] && handsDealt[idx].cards} player='Player' handNum={idx + 1} focused={handFocusedIdx === idx} />)
+      texts.push(
+        <View
+          key={idx}
+          style={styles.item}
+          onLayout={(event) => {
+            const layout = event.nativeEvent.layout;
+            dataSourceCords[idx] = layout.y;
+            setDataSourceCords(dataSourceCords);
+          }}>
+          <HandRow step={step} cards={handsDealt[idx] && handsDealt[idx].cards} player='Player' handNum={idx + 1} focused={handFocusedIdx === idx} />
+        </View>
+
+      )
       idx++
     }
     return texts
@@ -149,6 +167,23 @@ export default function Game(props) {
     takeDealerActionWhenNeeded()
   }, [state.step])
 
+
+  const scrollHandler = (idx) => {
+    console.log(dataSourceCords.length, scrollToIndex);
+    if (dataSourceCords.length > scrollToIndex) {
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[scrollToIndex - 1],
+        animated: true,
+      });
+    } else {
+      console.log('Out of index');
+      // alert('Out of Max Index');
+    }
+  };
+
+  useEffect(scrollHandler, [handsDealt])
+
   const {
     step,
     handsDealt,
@@ -156,26 +191,28 @@ export default function Game(props) {
   } = state
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <InfoPanel state={state} />
       <View style={{ flex: 0.8, borderBottomWidth: 1 }}>
         <ShimmerPlaceholder visible={handsDealt[handsDealt.length - 1].cards}>
           <HandRow step={step} cards={handsDealt[handsDealt.length - 1].cards} player='Dealer' show={handFocusedIdx === handsDealt.length - 1} />
         </ShimmerPlaceholder>
       </View>
-      <ScrollView style={styles.flexOne}>
+      <ScrollView
+        style={styles.flexOne}
+        ref={(ref) => setRef(ref)}
+      >
         {renderHands()}
       </ScrollView>
       <Composer stay={stay} step={step} state={state} setState={setState} startGame={startGame} hit={hit} />
-    </View>
-  )
-}
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    marginTop: '10%',
     flexDirection: 'column',
   },
   flexOne: {

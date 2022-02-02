@@ -63,7 +63,7 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
           horizontal
           style={[
             styles.rowContainer,
-            { borderTopWidth: 1, borderRightWidth: 1 }, step === 1 && focused && { borderColor: 'green' },
+            { borderBottomWidth: 1, borderRightWidth: 1 }, step === 1 && focused && { borderColor: 'green', borderBottomWidth: 2, borderRightWidth: 2 },
             calculateSumOfCards(cards) > 21 && { borderColor: 'red', borderWidth: 1 },
             calculateSumOfCards(cards) === 21 && { borderColor: 'gold' },
           ]}
@@ -77,7 +77,7 @@ function HandRow({ idx, cards, player, handNum, step, focused, show }) {
 const styles = StyleSheet.create({
   row: {
     width: '100%',
-    padding: 10,
+    paddingRight: '2%',
   },
   rowTitle: {
     fontSize: 20,
